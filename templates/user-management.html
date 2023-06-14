@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'fonts/objectivity/objectivity-font.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'zebra-datepicker/Zebra_Datepicker-master/dist/css/bootstrap/zebra_datepicker.min.css' %}"
+    />
+    <title>Kaysim Waste Record System</title>
+    <link rel="icon" href="{% static 'images/logo/favicon.svg' %}" />
+  </head>
+  <body>
+    <section class="app-banner">
+      <nav class="navbar app-new-user-navbar navbar-expand-lg fixed-top">
+        <a class="navbar-brand" href="{% url 'users_list' %}">
+          <img src="{% static 'images/logo/recycling.svg' %}" alt="" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'users_list' %}"
+                >User Management <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'company_details' %}"
+                >Company Details</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'waste_records' %}"
+                >Capture Waste Record</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'waste_records_list' %}"
+                >Waste Record List</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'compliance_records' %}"
+                >Compliance Certificate Download</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link app-new-arrow-link nav-link-collapse"
+                href="#"
+                id="hasSubItems"
+                data-toggle="collapse"
+                data-target="#collapseSubItems1"
+                aria-controls="collapseSubItems1"
+                aria-expanded="false"
+                >Reports</a
+              >
+              <ul
+                class="nav-second-level collapse"
+                id="collapseSubItems1"
+                data-parent="#navAccordion"
+              >
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'monthly_wastwe_reports' %}">
+                    <span class="nav-link-text">Monthly Waste Report</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link app-new-arrow-link-2 nav-link-collapse"
+                href="#"
+                id="hasSubItems"
+                data-toggle="collapse"
+                data-target="#collapseSubItems2"
+                aria-controls="collapseSubItems2"
+                aria-expanded="false"
+                >Jobs Creation</a
+              >
+              <ul
+                class="nav-second-level collapse"
+                id="collapseSubItems2"
+                data-parent="#navAccordion"
+              >
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'contrator_details' %}">
+                    <span class="nav-link-text">Contractor Details</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'contrator_list' %}">
+                    <span class="nav-link-text">Contractor List</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="content-wrapper">
+        <div class="container-fluid">
+          <div class="user-management">
+            <div class="container">
+              <div class="user-nav-bar">
+                <nav class="navbar navbar-expand-lg">
+                  <a class="navbar-brand" href="#">Overview</a>
+                  <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+
+                  <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent">
+                    <form class="form-inline app-new-form my-2 my-lg-0">
+                      <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        placeholder="Search Waste"
+                        aria-label="Search"
+                      />
+                      <div class="search-image">
+                        <img
+                          src="{% static 'images/user-management/search.svg' %}"
+                          alt=""
+                        />
+                      </div>
+                    </form>
+                    <div class="user-management-icons">
+                      <ul>
+                        <li>
+                          <a href="">
+                            <img
+                              src="{% static 'images/user-management/bell-icon.svg' %}"
+                              alt=""
+                            />
+                          </a>
+                        </li>
+                        <li>
+                          <a href="">
+                            <img
+                              src="{% static 'images/user-management/person.svg' %}"
+                              alt=""
+                            />
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="user-list">
+                    <div class="user-list-content">
+                      <div class="user-list-content-2">
+                        <h3>User List <span> (20)</span></h3>
+                      </div>
+                      <div class="user-list-table">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Sl.No</th>
+                              <th>Name</th>
+                              <th>Membership Number</th>
+                              <th>Status</th>
+                              <th>Manage</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>01</td>
+                              <td>Rajnish Kr. Singh</td>
+                              <td>5454-8485</td>
+                              <td class="active-in-active-box">
+                                <select class="selectpicker">
+                                  <option>Active</option>
+                                  <option>In-Active</option>
+                                </select>
+                              </td>
+                              <td>
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/edit.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>02</td>
+                              <td>Rajnish Kr. Singh</td>
+                              <td>4545-9565</td>
+                              <td
+                                class="active-in-active-box app-new-active-inctive-box"
+                              >
+                                <select class="selectpicker">
+                                  <option>In-Active</option>
+                                  <option>Active</option>
+                                </select>
+                              </td>
+                              <td>
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/edit.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>03</td>
+                              <td>Rajnish Kr. Singh</td>
+                              <td>5454-8485</td>
+                              <td class="active-in-active-box">
+                                <select class="selectpicker">
+                                  <option>Active</option>
+                                  <option>In-Active</option>
+                                </select>
+                              </td>
+                              <td>
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/edit.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>04</td>
+                              <td>Rajnish Kr. Singh</td>
+                              <td>4545-9565</td>
+                              <td
+                                class="active-in-active-box app-new-active-inctive-box"
+                              >
+                                <select class="selectpicker">
+                                  <option>In-Active</option>
+                                  <option>Active</option>
+                                </select>
+                              </td>
+                              <td>
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/edit.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>01</td>
+                              <td>Rajnish Kr. Singh</td>
+                              <td>5454-8485</td>
+                              <td class="active-in-active-box">
+                                <select class="selectpicker">
+                                  <option>Active</option>
+                                  <option>In-Active</option>
+                                </select>
+                              </td>
+                              <td>
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/edit.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>02</td>
+                              <td>Rajnish Kr. Singh</td>
+                              <td>4545-9565</td>
+                              <td
+                                class="active-in-active-box app-new-active-inctive-box"
+                              >
+                                <select class="selectpicker">
+                                  <option>In-Active</option>
+                                  <option>Active</option>
+                                </select>
+                              </td>
+                              <td>
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/edit.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>01</td>
+                              <td>Rajnish Kr. Singh</td>
+                              <td>5454-8485</td>
+                              <td class="active-in-active-box">
+                                <select class="selectpicker">
+                                  <option>Active</option>
+                                  <option>In-Active</option>
+                                </select>
+                              </td>
+                              <td>
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/edit.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>02</td>
+                              <td>Rajnish Kr. Singh</td>
+                              <td>4545-9565</td>
+                              <td
+                                class="active-in-active-box app-new-active-inctive-box"
+                              >
+                                <select class="selectpicker">
+                                  <option>In-Active</option>
+                                  <option>Active</option>
+                                </select>
+                              </td>
+                              <td>
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/edit.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="quotes-diversion">
+                    <div class="qutoes-box">
+                      <div class="qutoes-box-content">
+                        <h4>Quotes</h4>
+                        <p>Lorem Epson is a dummy word to fill the sentences</p>
+                      </div>
+                    </div>
+                    <div class="qutoes-box app-new-quotes-box">
+                      <div class="qutoes-box-content">
+                        <h4>Diversion rates</h4>
+                        <div class="diversion-highest-rates">
+                          <div class="diversion-highest-rates-content">
+                            <div class="highest">
+                              <h5>Highest</h5>
+                              <h4>Region Name</h4>
+                            </div>
+                            <div class="persentage">
+                              <h5>8%</h5>
+                              <h4>52%</h4>
+                              <div class="persentage-image">
+                                <img
+                                  src="{% static 'images/user-management/up-arrow.svg' %}"
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="diversion-highest-rates-content">
+                            <div class="highest average">
+                              <h5>Average</h5>
+                              <h4>Region Name</h4>
+                            </div>
+                            <div class="persentage average2">
+                              <h4>20%</h4>
+                            </div>
+                          </div>
+                          <div class="diversion-highest-rates-content">
+                            <div class="highest lowest">
+                              <h5>Lowest</h5>
+                              <h4>Region Name</h4>
+                            </div>
+                            <div class="persentage lowest2">
+                              <h5>8%</h5>
+                              <h4>20%</h4>
+                              <div class="persentage-image">
+                                <img
+                                  src="{% static 'images/user-management/up-arrow.svg' %}"
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="diversion-highest-rates-content">
+                            <div class="highest">
+                              <h5>Highest</h5>
+                              <h4>Region Name</h4>
+                            </div>
+                            <div class="persentage">
+                              <h5>8%</h5>
+                              <h4>52%</h4>
+                              <div class="persentage-image">
+                                <img
+                                  src="{% static 'images/user-management/up-arrow.svg' %}"
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="diversion-highest-rates-content">
+                            <div class="highest average">
+                              <h5>Average</h5>
+                              <h4>Region Name</h4>
+                            </div>
+                            <div class="persentage average2">
+                              <h4>20%</h4>
+                            </div>
+                          </div>
+                          <div class="diversion-highest-rates-content">
+                            <div class="highest lowest">
+                              <h5>Lowest</h5>
+                              <h4>Region Name</h4>
+                            </div>
+                            <div class="persentage lowest2">
+                              <h5>8%</h5>
+                              <h4>20%</h4>
+                              <div class="persentage-image">
+                                <img
+                                  src="{% static 'images/user-management/up-arrow.svg' %}"
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="{% static 'zebra-datepicker/Zebra_Datepicker-master/dist/zebra_datepicker.min.js' %}"></script>
+    <script>
+      $("#datepicker").Zebra_DatePicker();
+    </script>
+    <script>
+      $(document).ready(function () {
+        $(".nav-link-collapse").on("click", function () {
+          $(".nav-link-collapse").not(this).removeClass("nav-link-show");
+          $(this).toggleClass("nav-link-show");
+        });
+      });
+    </script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+  </body>
+</html>
