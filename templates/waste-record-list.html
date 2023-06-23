@@ -127,6 +127,18 @@
         <div class="container-fluid">
             <div class="user-management">
                 <div class="container">
+                  {% if messages %}
+                    <div class="messages">
+                    {% for message in messages %}
+                      <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                    </div>
+                  {% endif %}
                  <div class="user-nav-bar">
                      <nav class="navbar navbar-expand-lg">
                          <a class="navbar-brand" href="#">Waste Record List</a>
@@ -135,10 +147,8 @@
                            <form class="form-inline app-new-form my-2 my-lg-0" method="GET" action="{% url 'waste_records_list' %}">
                              <input class="form-control mr-sm-2" type="text" name="search" value="" placeholder="Search...">
                              <div class="search-image">
-                              <button type="submit"><img
-                                src="{% static 'images/user-management/search.svg' %}"
-                                alt=""
-                              /></button>
+                              <button type="submit">
+                                <img src="{% static 'images/user-management/search.svg' %}"/></button>
                             </div>
                           </form>
                           <div class="user-management-icons">
@@ -151,13 +161,20 @@
                                   />
                                 </a>
                               </li>
-                              <li>
+                              <li class="person-drop-down">
                                 <a href="">
                                   <img
                                     src="{% static 'images/user-management/person.svg' %}"
                                     alt=""
                                   />
                                 </a>
+                                <div class="dropdown">
+                                  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"></button>
+                                  <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">{{request.user.username}}</a>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                  </div>
+                                </div>
                               </li>
                             </ul>
                            </div>
@@ -195,11 +212,11 @@
                                 <td>
                                     <div class="edit-del">
                                       <button>
-                                        <a href="">
+                                        <a href="{% url 'waste_record_update' wR.id %}">
                                             <img src="{% static 'images/user-management/edit.svg'%}" alt="">
                                         </a>
                                       </button>
-                                      <button>
+                                      <button type="button" onclick="confirmDelete('{{ wR.id }}')">
                                         <a href="">
                                             <img src="{% static 'images/waste-record/delete.png'%}" alt="">
                                         </a>
@@ -250,13 +267,21 @@
     </script>
     <script>
         $(document).ready(function() {
-  $('.nav-link-collapse').on('click', function() {
-    $('.nav-link-collapse').not(this).removeClass('nav-link-show');
-    $(this).toggleClass('nav-link-show');
-  });
-});
-
-</script>
+          $('.nav-link-collapse').on('click', function() {
+            $('.nav-link-collapse').not(this).removeClass('nav-link-show');
+            $(this).toggleClass('nav-link-show');
+          });
+        });
+    </script>
+    <script>
+      function confirmDelete(objectId) {
+        console.log(objectId)
+        if (confirm('Are you sure you want to delete this record?')) {
+          // Redirect to the delete view passing the object ID
+          window.location.href = '/waste_record/' + objectId + '/delete';
+        }
+      }
+    </script>
 
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>

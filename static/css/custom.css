@@ -157,7 +157,7 @@ body{
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
-    margin: 0px 0px 20px 0px;
+    margin: 0px;
 }
 .user-list-content h3 span{
     font-size: 15px;
@@ -506,7 +506,7 @@ body{
     outline:1px solid #006838 !important;
 }
 .captute-waste-form .Zebra_DatePicker_Icon_Wrapper button{
-    right: 20px !important;
+    right: -120px !important;
     top: 10px !important;
 }
 .captute-waste-form form label{
@@ -1009,7 +1009,7 @@ body{
     padding: 20px;
    }
    .app-new-captute-waste-form .Zebra_DatePicker_Icon_Wrapper input{
-    width: 334px !important;
+    width: 280px !important;
    }
    /* .app-new-gender-form .app-new-gender-form2{
     margin-left: 20px;
@@ -1024,7 +1024,7 @@ body{
     font-weight: 700;
     font-size: 15px;
     color: #616161;
-    margin: 0px;
+    margin: 03px 0px 0px 03px;
    }
    .waste-record-list .app-new-contractor-list{
         display: flex;
@@ -1053,7 +1053,7 @@ body{
    .waste-record-list .app-new-contractor-list .dob form .dob-search{
     position: absolute;
     top: 05px;
-    left: 12px;
+    left: 152px;
    }
    .app-new-contractor-list{
     margin-bottom: 20px;
@@ -1104,6 +1104,24 @@ body{
    .user-list-content-2{
     margin-bottom: 20px;
    }
+
+   .user-list-content-2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   }
+
+   .user-list-content-2 .app-new-add-user-btn{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    background: linear-gradient(256.47deg, #006838 0%, #77C043 50%, #B3CE35 100%);
+    padding: 5px 20px;
+    border-radius: 50px;
+    border: 1px solid #77C043;
+    color: #fff;
+   }
    .app-new-contractor-list-captute-waste-form .filter-option .filter-option-inner-inner:focus-visible {
     outline: unset !important;
    }
@@ -1120,3 +1138,189 @@ body{
     background-color: #006838 !important;
    }
    */
+
+   /* .login-bg{
+    background-image: url(../images/login-bg.svg);
+    width: 100%;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+   } */
+   .kaysim-login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   }
+   .kaysim-form-content h3{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px;
+   }
+   .kaysim-login-logo{
+    margin-bottom: 20px;
+   }
+   .kaysim-login-form{
+    background-color: #fff;
+    width: 500px;
+    border-radius: 10px;
+   }
+   .kaysim-form-content{
+    padding: 50px 30px;
+   }
+   .kaysim-user-content{
+    margin-bottom: 50px;
+   }
+   .kaysim-form .form-group input{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 50px;
+   }
+   .kaysim-form .form-group .app-new-form-control-kaysim{
+    margin: 0px 0px 30px 0px;
+
+   }
+   .kaysim-form .forgot-password{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+   }
+   .kaysim-form .forgot-password button{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    color: #2C2C2C;
+    text-decoration: none;
+   }
+   .kaysim-form-content .login-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+   }
+   .kaysim-form-content .login-button button{
+    background: linear-gradient(256.47deg, #006838 0%, #77C043 50%, #B3CE35 100%);
+    padding: 10px 100px;
+    color: #fff;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-bottom: 15px;
+    font-weight: 500;
+   }
+   .kaysim-form-content .login-button p{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    color: #2C2C2C;
+   }
+   .kaysim-form-content .form-control:focus{
+    border-color:  #006838;
+   }
+   .app-new-user-list-content-model{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   }
+   .app-new-add-user-btn{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    background:linear-gradient(256.47deg, #006838 0%, #77C043 50%, #B3CE35 100%) !important;
+    padding: 05px 40px;
+    border-radius: 50px;
+    color: #FFFFFF;
+   }
+   /* .modal-form{
+    padding: 20px 20px;
+   } */
+   .modal-form-label .form-control{
+    border-radius: 50px;
+   }
+   .modal-submit-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+   }
+   .modal-submit-button button{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    background:linear-gradient(256.47deg, #006838 0%, #77C043 50%, #B3CE35 100%) !important;
+    padding: 05px 60px;
+    border-radius: 50px;
+    color: #FFFFFF;
+    border: none;
+   }
+   .modal-content{
+    border-radius: 10px;
+   }
+  .modal-header{
+    border-bottom: 0px !important;
+  }
+  .user-management-icons ul .person-drop-down{
+    display: flex;
+    align-items: center;
+   }
+   .user-management-icons ul .person-drop-down .btn:focus{
+    box-shadow: none;
+   }
+   .user-management-icons ul .person-drop-down .dropdown-menu{
+    left: -100px !important;
+   }
+   .modal-form-label .app-new-date-picker-form .bootstrap-select>.dropdown-toggle{
+    width:300px;
+    border-radius: 50px;
+   }
+   .app-new-date-modal-form-label label{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;    
+    margin: 0px !important;
+   }
+   .app-new-date-modal-form-label .filter-option-inner-inner{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    background: none !important;
+   }
+ 
+   .app-new-date-modal-form-label .btn-light{
+    background: #fff !important;
+    border: 1px solid #ced4da !important;
+   }
+   .app-new-main-form .app-new-captute-waste-form-main{
+    display: flex !important;
+    justify-content: unset !important;
+   }
+   .app-new-main-form .app-new-captute-waste-form-main label{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0px;
+    color: #2C2C2C;
+   }
+   .user-nav-bar .search-image button,
+   .dob-search button{
+   background-color: unset;
+   border: unset;
+   }
+   .app-new-main-form .app-new-captute-waste-form-main{
+    display: flex !important;
+    justify-content: unset !important;
+   }
+   .app-new-main-form .app-new-captute-waste-form-main2 .Zebra_DatePicker_Icon_Wrapper button{
+    right: -70px !important;
+   }
+  

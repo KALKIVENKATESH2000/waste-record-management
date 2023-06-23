@@ -144,10 +144,20 @@
                                   <img src="{% static 'images/user-management/bell-icon.svg' %}" alt="">
                                  </a>
                               </li>
-                              <li>
-                                  <a href="">
-                                      <img src="{%static 'images/user-management/person.svg' %}" alt="">
-                                  </a>
+                              <li class="person-drop-down">
+                                <a href="">
+                                  <img
+                                    src="{% static 'images/user-management/person.svg' %}"
+                                    alt=""
+                                  />
+                                </a>
+                                <div class="dropdown">
+                                  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"></button>
+                                  <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">{{request.user.username}}</a>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                  </div>
+                                </div>
                               </li>
                           </ul>
                            </div>

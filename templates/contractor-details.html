@@ -150,10 +150,20 @@
                                 <img src="{% static 'images/user-management/bell-icon.svg' %}" alt="">
                               </a>
                             </li>
-                            <li>
-                                <a href="">
-                                <img src="{%static 'images/user-management/person.svg' %}" alt="">
+                            <li class="person-drop-down">
+                              <a href="">
+                                <img
+                                  src="{% static 'images/user-management/person.svg' %}"
+                                  alt=""
+                                />
                               </a>
+                              <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"></button>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="#">{{request.user.username}}</a>
+                                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                </div>
+                              </div>
                             </li>
                         </ul>
                        </div>
@@ -217,7 +227,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="app-new-main-form">
-                                <div class="captute-waste-form app-new-captute-waste-form">
+                                <div class="captute-waste-form app-new-captute-waste-form app-new-captute-waste-form-main app-new-captute-waste-form-main2 ">
                                         <label for="employment_start" style="margin-right: 10px;">Employment Start Date</label>
                                         <input type="text" id="datepicker" name="employment_start" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY">                                                      </form>
                                 </div>
@@ -238,7 +248,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="app-new-main-form">
-                                <div class="captute-waste-form app-new-captute-waste-form">
+                                <div class="captute-waste-form app-new-captute-waste-form app-new-captute-waste-form-main app-new-captute-waste-form-main2">
                                         <label for="employment_end"style="margin-right: 10px;">Employment End Date</label>
                                         <input type="text" id="datepicker2" name="employment_end" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY">  
                                 </div>

@@ -1,5 +1,8 @@
 from django.db import models
 import calendar
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+# from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -14,14 +17,23 @@ SITE_NAME_CHOICES = (
         ('Site3', 'Site3'),
     )
 LANDFILL_CHOICES = (
-        ('1', 'LandFill1'),
-        ('2', 'LandFill2'),
-        ('3', 'LandFill3'),
+        ('W.D. Hall', 'W.D. Hall'),
     ) 
 RECYCLEBLE_ITEM_CHOICES = (
-        ('1', 'item1'),
-        ('2', 'item2'),
-        ('3', 'item3'),
+        ('Common', 'Common'),
+        ('HL1', 'HL1'),
+        ('HL2', 'HL2'),
+        ('K4', 'K4'),
+        ('SMW', 'SMW'),
+        ('SN', 'SN'),
+        ('HD', 'HD'),
+        ('LD Clear', 'LD Clear'),
+        ('LD Mix', 'LD Mix'),
+        ('LD Shrink', 'LD Shrink'),
+        ('PET Brown', 'PET Brown'),
+        ('PET Clear', 'PET Clear'),
+        ('PET Green', 'PET Green'),
+        ('Glass', 'Glass'),
     ) 
 RACE_CHOICES = (
         ('Race1', 'Race1'),
@@ -35,6 +47,18 @@ GENDER_CHOICES = (
     )
 MONTH_CHOICES = [(str(month), calendar.month_name[month]) for month in range(1, 13)]
 
+
+
+class CustomUser(AbstractUser):
+    member_id = models.CharField(max_length=100)
+    email = models.EmailField(verbose_name="Email", null=True, unique=True, max_length=250)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['member_id', 'username']
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name
+    
+    
 class Company(models.Model):
     name               = models.CharField(max_length=255)
     contact_number     = models.CharField(max_length=20)
@@ -42,7 +66,7 @@ class Company(models.Model):
     email              = models.EmailField(max_length=50)
     person_number      = models.CharField(max_length=20)
     register_no        = models.CharField(max_length=50)
-    branches           = models.CharField(max_length=50, choices=BRANCHES_CHOICES)
+    branches           = models.CharField(max_length=150)
     vat_no             = models.CharField(max_length=50)
     createdAt          = models.DateTimeField(auto_now_add=True)
     
@@ -56,13 +80,13 @@ class WasteRecord(models.Model):
     disposal_slip_no                = models.CharField(max_length=50)
     vehicle_registration            = models.CharField(max_length=20)
     bin_size                        = models.CharField(max_length=50)
-    bin_GW                          = models.CharField(max_length=50)
-    land_fill                       = models.CharField(max_length=50, choices=LANDFILL_CHOICES)
+    bin_GW                          = models.IntegerField()
+    land_fill                       = models.CharField(max_length=50, choices=LANDFILL_CHOICES, default='W.D. Hal')
     recyclable_item                 = models.CharField(max_length=50, choices=RECYCLEBLE_ITEM_CHOICES)
-    solid_waste                     = models.CharField(max_length=50)
-    liquid_waste                    = models.CharField(max_length=50)
-    hazardous_waste                 = models.CharField(max_length=50)
-    rubble                          = models.CharField(max_length=50)
+    solid_waste                     = models.IntegerField()
+    liquid_waste                    = models.IntegerField()
+    hazardous_waste                 = models.IntegerField()
+    rubble                          = models.IntegerField()
     total_waste                     = models.CharField(max_length=50)
     collection_note                 = models.FileField(upload_to='doc/')
     service_provider_certificate    = models.FileField(upload_to='doc/')

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% include 'messages.html' %} 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -126,9 +127,18 @@
         <div class="container-fluid">
             <div class="user-management">
                 <div class="container">
+                  {% comment %} {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                      
+                    </div>
+                  {% endfor %} {% endcomment %}
                  <div class="user-nav-bar">
                      <nav class="navbar navbar-expand-lg">
-                         <a class="navbar-brand" href="#">Monthly Waste Reportt</a>
+                         <a class="navbar-brand" href="#">Monthly Waste Report</a>
                          
                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
                           <div class="user-management-icons">
@@ -138,10 +148,20 @@
                                     <img src="{% static 'images/user-management/bell-icon.svg' %}" alt="">
                                   </a>
                                 </li>
-                                <li>
-                                    <a href="">
-                                        <img src="{%static 'images/user-management/person.svg' %}" alt="">
-                                    </a>
+                                <li class="person-drop-down">
+                                  <a href="">
+                                    <img
+                                      src="{% static 'images/user-management/person.svg' %}"
+                                      alt=""
+                                    />
+                                  </a>
+                                  <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"></button>
+                                    <div class="dropdown-menu">
+                                      <a class="dropdown-item" href="#">{{request.user.username}}</a>
+                                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                    </div>
+                                  </div>
                                 </li>
                             </ul>
                            </div>
@@ -152,6 +172,8 @@
                         <p>Lorem Epson is a dummy word to fill the sentences Lorem Epson is a dummy word to fill the sentences</p>
                     </div>
               <div class="waste-record app-new-waste-record-2">
+                <form method="post">
+                  {% csrf_token %}
                 <div class="row align-item-center">
                 <div class="col-md-6">
                 <div class="monthly-list">
@@ -164,20 +186,20 @@
                      <div class="col-md-6">
                         <div class="app-new-main-form">
                             <div class="captute-waste-form">
-                                <form>
                                     {% comment %} <label for="birthday" style="margin-right: 10px;">Select Entry Date</label> {% endcomment %}
-                                <input type="text" id="datepicker" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY">                                                      </form>
+                                <input type="text" id="datepicker" name="year_month" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="MM/YYYY">
                             </div>
                         </div>
                     </div>
                   </div>
                   <div class="app-new-button-content">
                     <div class="app-comapany-submit-button app-new-app-comapany-submit-button">
-                        <button type="button" class="btn-1">Reset</button>
-                        <button type="button" class="btn-2">Save</button>
+                        <button type="reset" class="btn-1">Reset</button>
+                        <button type="submit" class="btn-2">Submit</button>
                     </div>
+                  </div>
                 </div>
-                </div>
+                </form>
                 <div class="waste-record app-new-waste-record-2">
                   <div class="row align-item-center">
                   <div class="col-md-6">
@@ -196,7 +218,7 @@
                               <p>January 2023</p>
                             </div>
                             <div>
-                              <img src="{% static 'images/compliance-certificate/download_pdf.svg'%}" alt="">
+                              <a href="{% url 'download_reports' %}"><img src="{% static 'images/compliance-certificate/download_pdf.svg'%}" alt=""></a>
                             </div>
                           </div>
                         </div>
@@ -220,15 +242,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="{% static 'zebra-datepicker/Zebra_Datepicker-master/dist/zebra_datepicker.min.js'%}"></script>
     <script>
-        $('#datepicker').Zebra_DatePicker();
+        $('#datepicker').Zebra_DatePicker({
+          format: 'm-Y',
+        });
+        
     </script>
     <script>
         $(document).ready(function() {
-  $('.nav-link-collapse').on('click', function() {
-    $('.nav-link-collapse').not(this).removeClass('nav-link-show');
-    $(this).toggleClass('nav-link-show');
-  });
-});
+          $('.nav-link-collapse').on('click', function() {
+            $('.nav-link-collapse').not(this).removeClass('nav-link-show');
+            $(this).toggleClass('nav-link-show');
+          });
+        });
 
     </script>
 
