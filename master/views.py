@@ -21,8 +21,10 @@ import xlwt
 @login_required(login_url='login')
 def UserManagement(request):
     user_list = CustomUser.objects.filter(is_staff=False)
+    user_count = user_list.count()
     context = {
-        "user_list":user_list
+        "user_list" : user_list,
+        "user_count" : user_count
     }
     return render(request, 'user-management.html', context)
 
@@ -69,6 +71,7 @@ def CompanyDetails(request):
         person_number = request.POST.get('person_number')
         register_no = request.POST.get('register_no')
         vat_no = request.POST.get('vat_no')
+        company_logo = request.FILES.get('logo')
         branches = request.POST.get('branches' '')
         data = request.POST.get('data')
         print('dataaaaaaaaaa', data)
@@ -86,7 +89,8 @@ def CompanyDetails(request):
             person_number=person_number,
             register_no=register_no,
             branches=branches,
-            vat_no=vat_no
+            vat_no=vat_no,
+            company_logo=company_logo,
         )
 
         messages.success(request, 'The Companey “{}” was added successfully.'.format(company_obj))
@@ -170,11 +174,9 @@ def WasteRecordList(request):
 
 def WasteRecordUpdate(request, id):
     wasteRecord_Obj = WasteRecord.objects.get(id=id)
+    print(wasteRecord_Obj.recyclable_item)
     mydate = wasteRecord_Obj.entry_date
-    print(mydate)
-    # entry_date = datetime.strptime(mydate, "%Y-%m-%d")
-    # entry_date.strftime('%Y/%m/%d')
-    # print('month',wasteRecord_Obj.month)
+
     if request.method =='POST':
         wasteRecord_Obj.month = request.POST['month']
         wasteRecord_Obj.entry_date = request.POST['entry_date']
@@ -190,43 +192,34 @@ def WasteRecordUpdate(request, id):
         wasteRecord_Obj.hazardous_waste = request.POST['hazardous_waste']
         wasteRecord_Obj.rubble = request.POST['rubble']
         wasteRecord_Obj.total_waste = request.POST['total_waste']
-        wasteRecord_Obj.collection_note = request.FILES.get('file1')
-        wasteRecord_Obj.service_provider_certificate = request.FILES.get('file2')
-        wasteRecord_Obj.landfill_disposal_certificate = request.FILES.get('file3')
-        wasteRecord_Obj.lab_test_result = request.FILES.get('file4')
-        wasteRecord_Obj.weight_bridge_certificate = request.FILES.get('file5')
+
         if len(request.FILES) != 0:
             if len(wasteRecord_Obj.collection_note) > 0:
-                pass
-                # os.remove(wasteRecord_Obj.collection_note.path)
+                os.remove(wasteRecord_Obj.collection_note.path)
             wasteRecord_Obj.collection_note = request.FILES['file1']
         if len(request.FILES) != 0:
             if len(wasteRecord_Obj.service_provider_certificate) > 0:
-                pass
-                # os.remove(wasteRecord_Obj.service_provider_certificate.path)
+                os.remove(wasteRecord_Obj.service_provider_certificate.path)
             wasteRecord_Obj.service_provider_certificate = request.FILES['file2']
         if len(request.FILES) != 0:
             if len(wasteRecord_Obj.landfill_disposal_certificate) > 0:
-                pass
-                # os.remove(wasteRecord_Obj.landfill_disposal_certificate.path)
+                os.remove(wasteRecord_Obj.landfill_disposal_certificate.path)
             wasteRecord_Obj.landfill_disposal_certificate = request.FILES['file3']
         if len(request.FILES) != 0:
             if len(wasteRecord_Obj.lab_test_result) > 0:
-                pass
-                # os.remove(wasteRecord_Obj.lab_test_result.path)
+                os.remove(wasteRecord_Obj.lab_test_result.path)
             wasteRecord_Obj.lab_test_result = request.FILES['file4']
         if len(request.FILES) != 0:
             if len(wasteRecord_Obj.weight_bridge_certificate) > 0:
-                pass
-                # os.remove(wasteRecord_Obj.weight_bridge_certificate.path)
+                os.remove(wasteRecord_Obj.weight_bridge_certificate.path)
             wasteRecord_Obj.weight_bridge_certificate = request.FILES['file5']
         
         wasteRecord_Obj.save()
         messages.success(request, 'The Waste Record was changed successfully..')
         return redirect('/waste_records/list')
     else:
-        context = {'wasteRecord_Obj': wasteRecord_Obj, 'mydate':mydate}
-    return render(request, 'capture-waste-record.html', context)
+        context = {'wasteRecord_Obj': wasteRecord_Obj, 'mydate':mydate, 'choices':RECYCLEBLE_ITEM_CHOICES}
+    return render(request, 'waste-record-update.html', context)
 
 def DelWasteRecord(request, id):
     wasteRecord_obj =  WasteRecord.objects.get(id=id)
@@ -239,23 +232,31 @@ def ComplianceCertificate(request):
     return render(request, 'compliance-certificate-download.html')
 
 
-
 def MonthlyWasteReport(request):
     year_month = str(request.POST.get('year_month'))
-    print('kkkkkkkkk',request.POST.get)
-    if year_month:
+    if 'year_month' in request.POST:
         year_month = year_month.split('-')
-        year = year_month[1]
         month = year_month[0]
+        year = year_month[1]
         start_date = datetime(year=int(year), month=int(month), day=1)
         request.session['start_date'] = str(start_date)
         end_date = datetime(year=int(year), month=int(month), day=int(calendar.monthrange(int(year), int(month))[1]))
         request.session['end_date'] = str(end_date)
     else:
-        messages.info(request, 'Please select month and year.')
+        # messages.info(request, 'Please select month and year.')
+        pass
     return render(request, 'monthly-waste-report.html')
+from django.db.models import Count
 
 def ContractorDetails(request):
+    sites = []
+    site_list = list(set(Company.objects.values_list('branches', flat=True)))
+    joined_string = ','.join(site_list)
+    result = [value.strip() for value in joined_string.split(',')]
+    unique_values = list(set(result))
+    for site in unique_values:
+        sites.append(site)
+        
     if request.method =='POST':
         site_name = request.POST.get('site_name')
         id_no = request.POST.get('id_no')
@@ -280,7 +281,8 @@ def ContractorDetails(request):
         )
         messages.success(request, 'The Contractor “{}” was added successfully.'.format(contractor_obj))
         return redirect('/contrator/details')
-    return render(request, 'contractor-details.html')
+    context = {'sites':sites}
+    return render(request, 'contractor-details.html', context)
 
 def ContractorList(request):
     print(request.user.username)
@@ -338,12 +340,18 @@ def Export_ContractorList(request):
     #     writer.writerow(contractor)
     # return response
 
+from django.db.models import Sum
 
 class GeneratePdf(View):
     def get(self, request, *args, **kwargs):
         if 'start_date' in  request.session:
             start_date = request.session.get('start_date')
             end_date = request.session.get('end_date')
+            response  = WasteRecord.objects.filter(entry_date__gte=start_date,entry_date__lte=end_date)
+            total_liquid_waste = response.aggregate(Sum('liquid_waste'))
+            total_bin_gw = response.aggregate(Sum('bin_GW'))
+            total_waste = response.aggregate(Sum('total_waste'))
+            print(total_bin_gw)
             respdt = HttpResponse(content_type='application/pdf')
             filename = 'waste reports'
             context = {
@@ -351,6 +359,10 @@ class GeneratePdf(View):
                 'end': datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S').date(),
                 'customer_name': 'Kalki',
                 'order_id': 1233434,
+                'response':response,
+                'total_liquid_waste':total_liquid_waste,
+                'total_waste':total_waste,
+                'total_bin_gw':total_bin_gw
             }
             print(context)
             # pdf = render_to_pdf('pdf/invoice.html', data)

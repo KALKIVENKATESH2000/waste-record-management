@@ -251,13 +251,13 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="app-new-main-form">
-                                        <div class="form-group tags-container">
+                                        <div class="form-group">
                                           <label for="branches">Branches</label>
                                           <input type="text" class="form-control" id="branches_id" name="branches" placeholder="Type branches separated by commas">
                                           <ul id="stringList"></ul>
-                                          <button type="button" onclick="AddStringsToArray()" class="branch-button">
+                                          {% comment %} <button type="button" onclick="AddStringsToArray()" class="branch-button">
                                             <img src="{% static 'images/company-name/branch-button.svg'%}" alt="">
-                                          </button>
+                                          </button> {% endcomment %}
                                         </div>
                                 </div>
                             </div>
@@ -267,6 +267,14 @@
                                         <div class="form-group">
                                           <label for="vat_no">Company VAT No.</label>
                                           <input type="text" class="form-control" id="vat_no" name="vat_no" placeholder="Enter VAT number">
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="app-new-main-form">
+                                        <div class="form-group">
+                                          <label for="logo">Company Logo</label>
+                                          <input type="file" class="form-control" id="logo" name="logo">
                                         </div>
                                 </div>
                             </div>

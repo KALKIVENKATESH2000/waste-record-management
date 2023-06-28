@@ -11,11 +11,11 @@ BRANCHES_CHOICES = (
         ('2-C', '2-C'),
         ('3-C', '3-C'),
     )
-SITE_NAME_CHOICES = (
-        ('Site1', 'Site1'),
-        ('Site2', 'Site2'),
-        ('Site3', 'Site3'),
-    )
+# SITE_NAME_CHOICES = (
+#         ('Site1', 'Site1'),
+#         ('Site2', 'Site2'),
+#         ('Site3', 'Site3'),
+#     )
 LANDFILL_CHOICES = (
         ('W.D. Hall', 'W.D. Hall'),
     ) 
@@ -45,9 +45,27 @@ GENDER_CHOICES = (
         ('female', 'Female'),
         ('others', 'Others'),
     )
-MONTH_CHOICES = [(str(month), calendar.month_name[month]) for month in range(1, 13)]
+MONTH_CHOICES = (
+        ('January', 'January'),
+        ('February', 'February'),
+        ('March', 'March'),
+        ('April', 'April'),
+        ('May', 'May'),
+        ('June', 'June'),
+        ('July', 'July'),
+        ('August', 'August'),
+        ('September', 'September'),
+        ('October', 'October'),
+        ('November', 'November'),
+        ('December', 'December'),
+)
 
 
+def upload_waste_records(instance, filename):
+    return 'uploads/waste_records/{filename}'.format(filename=filename)
+
+def company_logos(instance, filename):
+    return 'uploads/Company_logos/{filename}'.format(filename=filename)
 
 class CustomUser(AbstractUser):
     member_id = models.CharField(max_length=100)
@@ -68,14 +86,15 @@ class Company(models.Model):
     register_no        = models.CharField(max_length=50)
     branches           = models.CharField(max_length=150)
     vat_no             = models.CharField(max_length=50)
+    company_logo       = models.FileField(upload_to=company_logos)
     createdAt          = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.name
     
 class WasteRecord(models.Model):
-    month                           = models.CharField(max_length=2, choices=MONTH_CHOICES)
-    entry_date                      = models.DateField(max_length=20)
+    month                           = models.CharField(max_length=20, choices=MONTH_CHOICES)
+    entry_date                      = models.DateTimeField(max_length=20)
     manifest_no                     = models.CharField(max_length=255)
     disposal_slip_no                = models.CharField(max_length=50)
     vehicle_registration            = models.CharField(max_length=20)
@@ -88,15 +107,15 @@ class WasteRecord(models.Model):
     hazardous_waste                 = models.IntegerField()
     rubble                          = models.IntegerField()
     total_waste                     = models.CharField(max_length=50)
-    collection_note                 = models.FileField(upload_to='doc/')
-    service_provider_certificate    = models.FileField(upload_to='doc/')
-    landfill_disposal_certificate   = models.FileField(upload_to='doc/')
-    lab_test_result                 = models.FileField(upload_to='doc/')
-    weight_bridge_certificate       = models.FileField(upload_to='doc/')
+    collection_note                 = models.FileField(upload_to=upload_waste_records)
+    service_provider_certificate    = models.FileField(upload_to=upload_waste_records)
+    landfill_disposal_certificate   = models.FileField(upload_to=upload_waste_records)
+    lab_test_result                 = models.FileField(upload_to=upload_waste_records)
+    weight_bridge_certificate       = models.FileField(upload_to=upload_waste_records)
     createdAt                       = models.DateTimeField(auto_now_add=True)
     
 class Contractor(models.Model):
-    site_name           = models.CharField(max_length=50, choices=SITE_NAME_CHOICES)
+    site_name           = models.CharField(max_length=50)
     id_no               = models.CharField(max_length=20)
     first_name          = models.CharField(max_length=255)
     last_name           = models.CharField(max_length=50)

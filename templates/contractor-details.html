@@ -184,11 +184,11 @@
                                     <div class="select-month-content">
                                         <h3>Site Name</h3>
                                     </div>
-                                    <select id="site_name" name="site_name" class="selectpicker">
-                                        <option selected="selected">Select Site Name</option>
-                                        <option value="Site1">Site1</option>
-                                        <option value="Site2">Site2</option>
-                                        <option value="Site3">Site3</option>
+                                    <select id="site_name" name="site_name" class="selectpicker" required>
+                                      <option selected="selected">Select Site</option>
+                                      {% for site in sites %}
+                                        <option value="{{site}}">{{site}}</option>
+                                        {% endfor %}
                                       </select>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                             <div class="app-new-main-form">
                                     <div class="form-group">
                                       <label for="id_no">ID Number</label>
-                                      <input type="text" class="form-control" id="id_no" name="id_no" placeholder="Enter ID number">
+                                      <input type="text" class="form-control" id="id_no" name="id_no" placeholder="Enter ID number" requiredss>
                                     </div>
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                             <div class="app-new-main-form">
                                     <div class="form-group">
                                       <label for="first_name">First Name</label>
-                                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name">
+                                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required>
                                     </div>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                             <div class="app-new-main-form">
                                     <div class="form-group">
                                       <label for="contact_number">Contact Number</label>
-                                      <input type="number" class="form-control" id="contact_number" name="contact_number" placeholder="Enter Contact Number">
+                                      <input type="number" class="form-control" id="contact_number" name="contact_number" placeholder="Enter Contact Number" required>
                                     </div>
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                             <div class="app-new-main-form">
                                 <div class="captute-waste-form app-new-captute-waste-form app-new-captute-waste-form-main app-new-captute-waste-form-main2 ">
                                         <label for="employment_start" style="margin-right: 10px;">Employment Start Date</label>
-                                        <input type="text" id="datepicker" name="employment_start" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY">                                                      </form>
+                                        <input type="text" id="datepicker" name="employment_start" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY" required>                                                      </form>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +250,7 @@
                             <div class="app-new-main-form">
                                 <div class="captute-waste-form app-new-captute-waste-form app-new-captute-waste-form-main app-new-captute-waste-form-main2">
                                         <label for="employment_end"style="margin-right: 10px;">Employment End Date</label>
-                                        <input type="text" id="datepicker2" name="employment_end" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY">  
+                                        <input type="text" id="datepicker2" name="employment_end" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY" required>  
                                 </div>
                             </div>
                         </div>

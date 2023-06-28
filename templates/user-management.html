@@ -204,7 +204,7 @@
                     <div class="user-list-content">
                       <div class="user-list-content-2 app-new-user-list-content-model">
                         <div>
-                          <h3>User List  <span> (20)</span></h3>
+                          <h3>User List  <span> ({{user_count}})</span></h3>
                         </div>
                             <div>
                               <!-- Button trigger modal -->
@@ -355,8 +355,13 @@
                                           <div class="form-group app-new-date-picker-form">
                                               <label for="status">Status</label>
                                                 <select class="selectpicker app-new-date-picker-main" name="status" value="{{ user.is_active }}">
+                                                  {% if user.is_active == True %}
                                                   <option value="True">Active</option>
                                                   <option value="False">In-Active</option>
+                                                  {% else %}
+                                                  <option value="False">In-Active</option>
+                                                  <option value="True">Active</option>
+                                                  {% endif %}
                                                 </select>
                                           </div>
                                       </div>

@@ -211,10 +211,10 @@
                                         <h3>Select Month</h3>
                                     </div>
                                       <select class="selectpicker" id="month" name="month" value="{{wasteRecord_Obj.month}}">
-                                        <option value="">Select a month</option>
+                                        <option value="{{wasteRecord_Obj.month}}">{{wasteRecord_Obj.month}}</option>
                                         <option value="January">January</option>                                    
                                         <option value="February">February</option>                                    
-                                        <option value="March">March</option>                                    
+                                        <option value="March">March</option>                                   
                                         <option value="April">April</option>                                   
                                         <option value="May">May</option>
                                         <option value="June">June</option>                                   
@@ -232,7 +232,7 @@
                             <div class="app-new-main-form">
                                 <div class="captute-waste-form app-new-captute-waste-form-main">
                                   <label for="entry_date" style="margin-right:10px;">Select Entry Date</label>
-                                  <input type="text" id="datepicker" name="entry_date" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY">
+                                  <input type="text" id="datepicker" name="entry_date" value="{{wasteRecord_Obj.entry_date |date:"Y-m-d"}}" data-zdp_direction="1" data-zdp_disabled_dates='["* * * 0,6"]' placeholder="DD/MM/YYYY">
                                 </div>
                             </div>
                         </div>
@@ -240,7 +240,7 @@
                             <div class="app-new-main-form">
                                 <div class="form-group">
                                   <label for="manifest_no">Manifest Number</label>
-                                  <input type="text" class="form-control" name="manifest_no" id="manifest_no" placeholder="Enter manifest number">
+                                  <input type="text" class="form-control" name="manifest_no" id="manifest_no" value="{{wasteRecord_Obj.manifest_no}}" placeholder="Enter manifest number">
                                 </div>
                             </div>
                         </div>
@@ -248,7 +248,7 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="disposal_slip_no">Disposal Slip Number</label>
-                                <input type="text" class="form-control" name="disposal_slip_no" id="disposal_slip_no" placeholder="Enter disposal slip numner">
+                                <input type="text" class="form-control" name="disposal_slip_no" id="disposal_slip_no" value="{{wasteRecord_Obj.disposal_slip_no}}" placeholder="Enter disposal slip numner">
                               </div>
                             </div>
                         </div>
@@ -256,7 +256,7 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="vehicle_registration">Vehicle Registration</label>
-                                <input type="text" class="form-control" name="vehicle_registration" id="vehicle_registration" placeholder="Enter vehicle registration">
+                                <input type="text" class="form-control" name="vehicle_registration" id="vehicle_registration" value="{{wasteRecord_Obj.vehicle_registration}}" placeholder="Enter vehicle registration">
                               </div>
                             </div>
                         </div>
@@ -264,7 +264,7 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="bin_size">Bin Size</label>
-                                <input type="text" class="form-control" name="bin_size" id="bin_size" placeholder="Enter bin size in Kgs">
+                                <input type="text" class="form-control" name="bin_size" id="bin_size" value="{{wasteRecord_Obj.bin_size}}" placeholder="Enter bin size in Kgs">
                               </div>
                             </div>
                         </div>
@@ -274,9 +274,9 @@
                                     <div class="select-month-content">
                                         <h3>Land fill </h3>
                                     </div>
-                                    <select class="selectpicker" id="land_fill" name="land_fill">
-                                        <option value="">Select a Landfill</option>
-                                        <option value="W.D. Hall">W.D. Hall</option>
+                                    <select class="selectpicker" id="land_fill" value="{{wasteRecord_Obj.land_fill}}" name="land_fill">
+                                        <option value="{{wasteRecord_Obj.land_fill}}">{{wasteRecord_Obj.land_fill}}</option>
+                                        {% comment %} <option value="W.D. Hall">W.D. Hall</option> {% endcomment %}
                                     </select>
                                 </div>
                             </div>
@@ -285,7 +285,7 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="bin_GW">Bin - GW</label>
-                                <input type="number" class="form-control" name="bin_GW" id="bin_GW" placeholder="Enter Bins-GW" onchange="calculate()">
+                                <input type="number" class="form-control" name="bin_GW" id="bin_GW" value="{{wasteRecord_Obj.bin_GW}}" placeholder="Enter Bins-GW" onchange="calculate()">
                               </div>
                             </div>
                         </div>
@@ -295,9 +295,13 @@
                                     <div class="select-month-content">
                                         <h3>Recyclable Item</h3>
                                     </div>
-                                    <select class="selectpicker" name="recyclable_item" id="recyclable_item">
-                                        <option>Select Recyclable Item</option>
+                                    <select class="selectpicker" name="recyclable_item" value="{{wasteRecord_Obj.recyclable_item}}" id="recyclable_item">
+                        
+                                        {% if wasteRecord_Obj.recyclable_item %}
+                                            <option value="{{wasteRecord_Obj.recyclable_item}}">{{wasteRecord_Obj.recyclable_item}}</option>
+                                            {% endif %}
                                         {% for choice in choices %}
+                                            
                                           <option value="{{ choice.0 }}">{{ choice.1 }}</option>
                                         {% endfor %}
                                     </select>
@@ -308,7 +312,7 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="solid_waste">Solid Waste</label>
-                                <input type="number" class="form-control" name="solid_waste" id="solid_waste" placeholder="Enter solid waste in Kgs" onchange="calculate()">
+                                <input type="number" class="form-control" name="solid_waste" id="solid_waste" value="{{wasteRecord_Obj.solid_waste}}" placeholder="Enter solid waste in Kgs" onchange="calculate()">
                               </div>
                             </div>
                         </div>
@@ -316,7 +320,7 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="liquid_waste">Liquid Waste</label>
-                                <input type="number" class="form-control" name="liquid_waste" id="liquid_waste" placeholder="Enter liquid waste in Ltr" onchange="calculate()">
+                                <input type="number" class="form-control" name="liquid_waste" id="liquid_waste" value="{{wasteRecord_Obj.liquid_waste}}" placeholder="Enter liquid waste in Ltr" onchange="calculate()">
                               </div>
                             </div>
                         </div>
@@ -324,7 +328,7 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="hazardous_waste">Hazardous Waste</label>
-                                <input type="number" class="form-control" name="hazardous_waste" id="hazardous_waste" placeholder="Enter liquid waste in Kgs" onchange="calculate()">
+                                <input type="number" class="form-control" name="hazardous_waste" id="hazardous_waste" value="{{wasteRecord_Obj.hazardous_waste}}" placeholder="Enter liquid waste in Kgs" onchange="calculate()">
                               </div>
                             </div>
                         </div>
@@ -332,7 +336,7 @@
                             <div class="app-new-main-form">
                                 <div class="form-group">
                                   <label for="rubble">Rubble</label>
-                                  <input type="number" class="form-control" name="rubble" id="rubble" placeholder="Enter rubble" onchange="calculate()">
+                                  <input type="number" class="form-control" name="rubble" id="rubble" value="{{wasteRecord_Obj.rubble}}" placeholder="Enter rubble" onchange="calculate()">
                                 </div>
                             </div>
                         </div>
@@ -340,7 +344,7 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="total_waste">Total Waste in Tonnage</label>
-                                <input type="text" class="form-control" name="total_waste" id="total_waste" placeholder="Total waste in Tonnage ">
+                                <input type="text" class="form-control" name="total_waste" id="total_waste" value="{{wasteRecord_Obj.total_waste}}" placeholder="Total waste in Tonnage ">
                               </div>
                             </div>
                         </div>
@@ -376,6 +380,9 @@
                                             <h5>Upload File</h5>
                                             <h6>your file <span>here or Browse Files</span></h6>
                                             <p id="file1_id"></p>
+                                            {% if wasteRecord_Obj.collection_note %}
+                                              <p>Currently : <a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/media/{{wasteRecord_Obj.collection_note}}" target="_blank">{{wasteRecord_Obj.collection_note}}</a></p>
+                                            {% endif %}
                                             <p>Only certain file types are allowed</p>
                                         </div>
                                       </label>
@@ -387,6 +394,9 @@
                                             <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
                                             <h5>Upload File</h5>
                                             <h6>your file <span>here or Browse Files</span></h6>
+                                            {% if wasteRecord_Obj.service_provider_certificate %}
+                                              <p>Currently : <a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/media/{{wasteRecord_Obj.service_provider_certificate}}">{{wasteRecord_Obj.service_provider_certificate}}</a></p>
+                                            {% endif %}
                                             <p id="file2_id"></p>
                                             <p>Only certain file types are allowed</p>
                                         </div>
@@ -399,18 +409,24 @@
                                             <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
                                             <h5>Upload File</h5>
                                             <h6>your file <span>here or Browse Files</span></h6>
+                                            {% if wasteRecord_Obj.landfill_disposal_certificate %}
+                                              <p>Currently : <a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/media/{{wasteRecord_Obj.landfill_disposal_certificate}}" target="_blank">{{wasteRecord_Obj.landfill_disposal_certificate}}</a></p>
+                                            {% endif %}
                                             <p id="file3_id"></p>
                                             <p>Only certain file types are allowed</p>
                                         </div>
                                       </label>
                                     </div>
                                     <div  id="tab4" class="custom-file app-new-custom-file tab-content" style="display: none;">
-                                      <input type="file" class="custom-file-input" id="file4" name="file4"  onchange="getFileData('file4');" aria-describedby="inputGroupFileAddon01">
+                                      <input type="file" class="custom-file-input" id="file4" name="file4" onchange="getFileData('file4');" aria-describedby="inputGroupFileAddon01">
                                       <label class="custom-file-label" for="file4">
                                         <div class="app-new-custom-file-label">
                                             <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
                                             <h5>Upload File</h5>
                                             <h6>your file <span>here or Browse Files</span></h6>
+                                            {% if wasteRecord_Obj.lab_test_result %}
+                                              <p>Currently : <a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/media/{{wasteRecord_Obj.lab_test_result}}">{{wasteRecord_Obj.lab_test_result}}</a></p>
+                                            {% endif %}
                                             <p id="file4_id"></p>
                                             <p>Only certain file types are allowed</p>
                                         </div>
@@ -423,6 +439,9 @@
                                             <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
                                             <h5>Upload File</h5>
                                             <h6>your file <span>here or Browse Files</span></h6>
+                                            {% if wasteRecord_Obj.weight_bridge_certificate %}
+                                              <p>Currently : <a href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}/media/{{wasteRecord_Obj.weight_bridge_certificate}}">{{wasteRecord_Obj.weight_bridge_certificate}}</a></p>
+                                            {% endif %}
                                             <p id="file5_id"></p>
                                             <p>Only certain file types are allowed</p>
                                         </div>

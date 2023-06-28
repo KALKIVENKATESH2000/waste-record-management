@@ -1,55 +1,223 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-    <head>
-        <title>Monthly Waste Reports</title>
-        <style type="text/css">
-            body {
-                font-weight: 200;
-                font-size: 14px;
-            }
-            .header {
-                font-size: 20px;
-                font-weight: 100;
-                text-align: center;
-                color: #007cae;
-            }
-            .title {
-                font-size: 22px;
-                font-weight: 100;
-               /* text-align: right;*/
-               padding: 10px 20px 0px 20px;  
-            }
-            .title span {
-                color: #007cae;
-            }
-            .details {
-                padding: 10px 20px 0px 20px;
-                text-align: left !important;
-                /*margin-left: 40%;*/
-            }
-            .hrItem {
-                border: none;
-                height: 1px;
-                /* Set the hr color */
-                color: #333; /* old IE */
-                background-color: #fff; /* Modern Browsers */
-            }
-        </style>
-    </head>
-    <body>
-        <div class='wrapper'>
-            <div class='header'>
-                <p class='title'>Monthly Waste Reports</p>
-            </div>
-        <div>
-        <div class='details'>
-            Order ID : {{order_id}} <br/>
-            Bill to: {{customer_name}} <br/>
-            Amount: {{amount}} <br/>
-            Start date: {{start}}<br/>
-            End date : {{end}}
-            <hr class='hrItem' />
-        </div>
-    </div>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Waste Record</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+        @page{
+            size: A4 landscape;
+            margin: 30px 15px;
+        }
+        body{
+            font-family: 'Open Sans', sans-serif;
+            font-size: 10px;
+            font-weight: 400;
+            padding:0;
+            margin:0;
+        }
+        .main{
+            width: 100%;
+        }
+        .wrapper{
+            width: 100%;
+        }
+
+        .head{
+            width: 100%;
+        }
+
+        .heading h1,
+        .heading h3{
+            margin:0;
+        }
+        .heading h3{
+            margin:5px 0 0 0;
+        }
+        .client-logo{
+            width: 100px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .app-logo{
+            width: 100px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: 8px;
+        }
+        .divider{
+            border: 1px solid #c9c9c9;
+            margin: 10px 0;
+        }
+        .subject{
+            width: 100%;
+        }
+        .subject h3{
+            margin:0;
+        }
+        .text-green{
+            color: #55A143;
+        }
+        .data{
+            width: 100%;
+        }
+        .data td,
+        .data th{
+            text-align: left;
+            padding:5px;
+            font-size: 9px;
+        }
+        .data td{
+            border-bottom: 1px solid #7E7E7E;
+        }
+        .data th{
+            background-color: #112647;
+            color: #ffffff;
+            font-weight: 500;
+        }
+        .data tfoot th,
+        .data tfoot td{
+            background-color: rgba(120, 192, 67, 0.79);
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 10px;
+        }
+        .montly-total{
+            font-size: 12px !important;
+        }
+    </style>
+</head>
+<body>
+    <table class="main">
+        <tr>
+            <td class="main-content">
+                <table class="wrapper">
+                    <tr>
+                        <td>
+                            <table class="head">
+                                <tr>
+                                    <td width="33.33%" valign="top" align="left">
+                                        <img class="client-logo" src="/static/images/logo/detpack.png"/>
+                                    </td>
+                                    <td width="33.33%" valign="top" align="center">
+                                        <table class="heading">
+                                            <tr>
+                                                <td align="center"><h1>WASTE RECORD SHEET</h1></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center"><h3>Client : <strong>DETPAK</strong></h3></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td width="33.33%" valign="top" align="right">
+                                        <table class="">
+                                            <tr>
+                                                <td valign="top"><img class="app-logo" src="/static/images/logo/kaysim-logo.png"/></td>
+                                                <td>
+                                                    <table class="">
+                                                        <tr>
+                                                            <td>
+                                                                <tr>
+                                                                    <td>154 Nicholson Road, Sunward Park, Boksburg, VAT No - 4020283349</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Tel No - 066 432 4329 / 076 301 3774</strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Email ID - contact@vibhotech.com</strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Website - www.vibhotech.com</strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <table class="subject">
+                                <tr>
+                                    <td width="33.33%"><strong>Month - <span class="text-green">{{start | date:"F"}}</span></strong></td>
+                                    <td width="33.33%" align="center"><h3>Record List</h3></td>
+                                    <td width="33.33%"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="data">
+                                <tr>
+                                    <thead>
+
+                                        <th>Sl.No</th>
+                                        <th>Date</th>
+                                        <th>Manifest No</th>
+                                        <th>Disposal<br>Slip No</th>
+                                        <th>Vehicle<br>Regs</th>
+                                        <th>Bin Size</th>
+                                        <th>Landfill</th>
+                                        <th>Bins - GW</th>
+                                        <th>Recyclable<br>Item</th>
+                                        <th>Solid Waste</th>
+                                        <th>Liquid Waste</th>
+                                        <th>Hazardous<br>Waste</th>
+                                        <th>Rubble</th>
+                                        <th>Total Waste<br>in Tonnage</th>
+                                    </thead>
+                                </tr>
+                                <tr>
+                                  {% for resp in response %}
+                                    <tbody>
+                                      <td>{{forloop.counter}}</td>
+                                      <td>{{resp.entry_date}}</td>
+                                      <td width="120">{{resp.manifest_no}}</td>
+                                      <td>{{resp.disposal_slip_no}}</td>
+                                      <td>{{resp.vehicle_registration}}</td>
+                                      <td>{{resp.bin_size}}</td>
+                                      <td>{{resp.land_fill}}</td>
+                                      <td>{{resp.bin_GW}}</td>
+                                      <td>{{resp.recyclable_item}}</td>
+                                      <td>{{resp.solid_waste}}</td>
+                                      <td>{{resp.liquid_waste}}</td>
+                                      <td>{{resp.hazardous_waste}}</td>
+                                      <td>{{resp.rubble}}</td>
+                                      <td>{{resp.total_waste}}</td>
+                                    </tbody>
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <tfoot>
+                                        <td class="montly-total" colspan="7">Monthly Total</td>
+                                        <td>{{total_bin_gw.bin_GW__sum}}</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>{{total_liquid_waste.liquid_waste__sum}}</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>{{total_waste.total_waste__sum}}</td>
+                                    </tfoot>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
 </html>

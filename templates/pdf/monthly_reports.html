@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+    <link rel="stylesheet" href="/static/fonts/objectivity/objectivity-font.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <title>Kaysim Waste Record System</title>
+    <link rel="icon" href="/static/images/logo/favicon.svg">
+</head>
+<body class="compliance-certificate-pdf">
+  <section class="main-compliance-certificate-">
+        <div class="compliance-certificate-content">
+            <ul>
+                <li>
+                    <a href="">
+                        <img src="/static/images/logo/detpack.svg">
+                    </a>
+                </li>
+                <li>
+                    <h3>WASTE RECORD SHEET</h3>
+                    <h5>Client : DETPAK</h5>
+                </li>
+                <li class="client-info">
+                    <a href="">
+                        <img src="/static/images/logo/recycling.svg">
+                    </a>
+                    <p>154 Nicholson Road, Sunward Park, Boksburg, <br>
+                    VAT No - 4020283349 <br>
+                    Tel No - 066 432 4329 / 076 301 3774 <br>
+                    Email ID - contact@vibhotech.com <br>
+                    Website - www.vibhotech.com</p>
+                </li>
+            </ul>
+        </div>
+  </section>
+  <section class="compliance-certificate-table">
+    <div class="compaliance-cerftificate-table-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="user-list">
+                    <div class="user-list-content">
+                      <div class="table-top-content">
+                        <div class="user-list-content-2 app-new-pdf-user-list-content-2">
+                            <h3>Month<span>- {{start | date:"F"}}</span></h3>
+                        </div>
+                        <div class="user-list-content-2 app-new-pdf-user-list-content-2">
+                         <h3>Record List</h3>      
+                     </div>
+                     <div class="user-list-content-2 app-new-pdf-user-list-content-2">
+                        <!-- <h3>Month <span>- January</span></h3>       -->
+                    </div>
+                      </div>
+                        <div class="user-list-table">
+                            <table class="table compliance-certificate-table">
+                                <thead>
+                                  <tr>
+                                    <th>Sl.No</th>
+                                    <th>Date</th>
+                                    <th>Manifest No</th>
+                                    <th>Disposal Slip No</th>
+                                    <th>Vehicle Regs</th>
+                                    <th>Bin Size</th>
+                                    <th>Landfill</th>
+                                    <th>Bins - GW</th>
+                                    <th>Recyclable Item</th>
+                                    <th>Solid Waste</th>
+                                    <th>Liquid Waste</th>
+                                    <th>Hazardous Waste</th>
+                                    <th>Rubble</th>
+                                    <th>Total Waste in Tonnage</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                {% for resp in response %}
+                                  <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{resp.entry_date}}</td>
+                                    <td>{{resp.manifest_no}}</td>
+                                    <td>{{resp.disposal_slip_no}}</td>
+                                    <td>{{resp.vehicle_registration}}</td>
+                                    <td>{{resp.bin_size}}</td>
+                                    <td>{{resp.land_fill}}</td>
+                                    <td>{{resp.bin_GW}}</td>
+                                    <td>{{resp.recyclable_item}}</td>
+                                    <td>{{resp.solid_waste}}</td>
+                                    <td>{{resp.liquid_waste}}</td>
+                                    <td>{{resp.hazardous_waste}}</td>
+                                    <td>{{resp.rubble}}</td>
+                                    <td>{{resp.total_waste}}</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                                <tfoot class="footer-table">
+                                    <td>total waste</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{total_bin_gw.bin_GW__sum}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{total_liquid_waste.liquid_waste__sum}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{total_waste.total_waste__sum}}</td>   
+                                </tfoot>
+                              </table>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+</body>
+</html>
