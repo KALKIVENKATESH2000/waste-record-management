@@ -1120,3 +1120,80 @@ body{
     background-color: #006838 !important;
    }
    */
+   .compliance-certificate-pdf{
+    background: linear-gradient(180deg, #CCFFA2 0%, rgba(204, 255, 162, 0) 100%);
+    margin: 0px;
+    padding: 20px 30px;
+   }
+   .compliance-certificate-content ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+   }
+   .compliance-certificate-content ul li a img{
+    width: 120px;
+   }
+   .compliance-certificate-content ul li{
+    list-style: none;
+   }
+   .client-info{
+    display: flex;
+    align-items: center;
+   }
+   .compliance-certificate-content ul li h3{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 40px;
+    margin: 0px 0px 10px 0px;
+    color: #2C2C2C;
+    text-align: center;
+   }
+   .compliance-certificate-content ul li h5{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0px;
+    color: #2C2C2C;
+    text-align: center;
+   }
+   .compliance-certificate-content ul li p{
+    font-family: 'Objectivity';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    margin: 0px;
+    color: #2C2C2C;
+   }
+   .table-top-content{
+    display: flex;
+    justify-content:space-between;
+   }
+   .compliance-certificate-table thead{
+    background-color: #112647;
+    color: #fff;
+   }
+   .app-new-pdf-user-list-content-2{
+    margin: 0px;
+   }
+   .compliance-certificate-table .table td,
+   .compliance-certificate-table .table th {
+    padding: 0.68rem;;
+   }
+   .compliance-certificate-table .table td{
+    text-align: center;
+   }
+   .compliance-certificate-table .footer-table{
+    background-color: #78C043C9;
+    color: #fff;
+   }
+   .app-new-pdf-user-list-content-2 h3 span{
+    color: #78C043C9;
+    font-weight: 700;
+   }

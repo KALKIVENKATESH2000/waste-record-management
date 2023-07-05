@@ -14,6 +14,8 @@ from django.contrib.auth import get_user_model
 from .models import RECYCLEBLE_ITEM_CHOICES
 import csv
 import xlwt
+from django.db.models import Sum
+
 
 # User = get_user_model()
 # Create your views here.
@@ -285,7 +287,13 @@ def ContractorDetails(request):
     return render(request, 'contractor-details.html', context)
 
 def ContractorList(request):
-    print(request.user.username)
+    sites = []
+    site_list = list(set(Company.objects.values_list('branches', flat=True)))
+    joined_string = ','.join(site_list)
+    result = [value.strip() for value in joined_string.split(',')]
+    unique_values = list(set(result))
+    for site in unique_values:
+        sites.append(site)
     contractor_list = Contractor.objects.all().values()
     count = contractor_list.count()
     search_query = request.GET.get('search')
@@ -293,7 +301,7 @@ def ContractorList(request):
         contractor_list = contractor_list.filter(
             site_name__icontains=search_query,
         )
-    paginator = Paginator(contractor_list, 10)
+    paginator = Paginator(contractor_list, 5)
     page = request.GET.get('page')
     
     try:
@@ -304,7 +312,8 @@ def ContractorList(request):
         contractor_list = paginator.get_page(paginator.num_pages)
     context = {"contractor_Obj":contractor_list, 
                "search_query":search_query,
-               "count": count
+               "count": count,
+               "sites": sites,
     }
     return render(request, 'contractor-list.html', context)
 
@@ -333,14 +342,7 @@ def Export_ContractorList(request):
     wb.save(response)
 
     return response
-    # writer = csv.writer(response)
-    # writer.writerow(['ID Number', 'First Name', 'Last Name', 'Contact Number', 'Gender', 'Site Name', 'Employment Start', 'Employment End' 'Race'])
-    # contractor_fields = contractors.values_list('id_no', 'first_name', 'last_name', 'contact_number', 'gender', 'site_name', 'employment_start', 'employment_end', 'race')
-    # for contractor in contractor_fields:
-    #     writer.writerow(contractor)
-    # return response
 
-from django.db.models import Sum
 
 class GeneratePdf(View):
     def get(self, request, *args, **kwargs):

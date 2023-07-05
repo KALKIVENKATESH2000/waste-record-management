@@ -672,9 +672,22 @@ body{
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
-    border:unset;
+    border: none;
     margin-left: 10px;
     color: #2C2C2C;
+    line-height: initial;
+}
+.app-new-pagination nav .pagination li.page-item.active .page-link{
+    border: 1px solid #006838;
+    border-radius: 50%;
+    background: linear-gradient(256.47deg, #006838 0%, #77C043 50%, #B3CE35 100%),
+    linear-gradient(0deg, #382F00, #382F00);
+    color: #FFFFFF;
+    min-width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
 }
 .app-new-pagination nav .pagination li .page-link:hover{
     border: 1px solid #006838;

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load static %}
-{% include messages %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -194,9 +193,10 @@
                                     <div class="captute-waste-form app-new-contractor-list-captute-waste-form">
                                         <select id="sitesDropdown" class="selectpicker" onchange="myFunction()">
                                             <option value="">Select Site</option>
-                                            <option value="Site1">Site1</option>
-                                            <option value="Site2">Site2</option>
-                                            <option value="Site3">Site3</option>
+                                            {% for site in sites %}
+                                            <option value="{{site}}">{{site}}</option>
+                                            {% endfor %}
+                                        </select>
                                         </select>
                                     </div>
                                 </th>
@@ -228,7 +228,7 @@
                                       {% endif %}
                                       {% for page_num in contractor_Obj.paginator.page_range %}
                                           {% if contractor_Obj.number == page_num %}
-                                              <li class="page-item"><a class="page-link" href="#">{{ page_num }}</a></li>
+                                              <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
                                           {% else %}
                                               <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ page_num }}</a></li>
                                           {% endif %}
@@ -271,6 +271,7 @@
         var input, filter, table, tr, td, i;
         input = document.getElementById("sitesDropdown");
         filter = input.value.toUpperCase();
+        console.log('kkkk',filter)
         table = document.getElementById("CLTable");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {

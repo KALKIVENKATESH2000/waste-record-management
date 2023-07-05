@@ -236,7 +236,7 @@
                                       {% endif %}
                                       {% for page_num in wasteRecord_Obj.paginator.page_range %}
                                           {% if wasteRecord_Obj.number == page_num %}
-                                              <li class="page-item"><a class="page-link" href="#">{{ page_num }}</a></li>
+                                              <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
                                           {% else %}
                                               <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ page_num }}</a></li>
                                           {% endif %}
