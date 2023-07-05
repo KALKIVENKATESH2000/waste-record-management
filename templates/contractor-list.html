@@ -126,14 +126,17 @@
         <div class="container-fluid">
             <div class="user-management">
                 <div class="container">
-                 <div class="user-nav-bar">
+                 <div class="user-nav-bar app-new-excel">
                      <nav class="navbar navbar-expand-lg">
                          <a class="navbar-brand" href="{% url 'contrator_list' %}">Contractor List</a>
-                         <li>
-                          <a href="{% url 'export_contractors_list' %}">
-                            <img src="{% static 'images/user-management/excel_icon.svg' %}" alt="">
-                          </a>
-                         </li>
+                         <ul>
+                          <li>
+                            <a class="excel" href="{% url 'export_contractors_list' %}">
+                              <img src="../static/images/download-arrow.svg" alt="">
+                              Excel
+                            </a>
+                           </li>
+                         </ul>
                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
                            <div class="user-management-icons">
                              <ul>
