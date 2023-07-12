@@ -299,7 +299,7 @@ def ContractorList(request):
         contractor_list = contractor_list.filter(
             site_name__icontains=search_query,
         )
-    paginator = Paginator(contractor_list, 5)
+    paginator = Paginator(contractor_list, 10)
     page = request.GET.get('page')
     
     try:
