@@ -67,7 +67,6 @@ def AddUser(request):
     return render(request, 'user-management.html')
     
 def update_user(request, user_id):
-    # print(user_id)
     if request.method == 'POST':
         user = CustomUser.objects.get(id=user_id)
         user.first_name = request.POST['first_name']
@@ -80,7 +79,6 @@ def update_user(request, user_id):
 def CompanyDetails(request):
     if request.method =='POST':
         name = request.POST.get('name')
-        print(name)
         contact_number = request.POST.get('contact_number')
         address = request.POST.get('address')
         email = request.POST.get('email')
@@ -90,12 +88,8 @@ def CompanyDetails(request):
         company_logo = request.FILES.get('logo')
         branches = request.POST.get('branches' '')
         data = request.POST.get('data')
-        print('dataaaaaaaaaa', data)
-        print('&&&&&&&&&&&&',branches)
         branch_list = [tag.strip() for tag in branches.split(',') if tag.strip()]
         # branches = request.POST.getlist('branches[]')
-        print('########',branch_list)
-
         
         company_obj = Company.objects.create(
             name=name,
@@ -129,7 +123,6 @@ def CaptureWasteRecord(request):
         hazardous_waste = request.POST.get('hazardous_waste')
         rubble = request.POST.get('rubble')
         total_waste = request.POST.get('total_waste')
-        print(total_waste)
         collection_note = request.FILES.get('file1')
         service_provider_certificate = request.FILES.get('file2')
         landfill_disposal_certificate = request.FILES.get('file3')
@@ -163,14 +156,10 @@ def CaptureWasteRecord(request):
 
 def WasteRecordList(request):
     wasteRecord_list = WasteRecord.objects.all()
-    # print(wasteRecord_list)
     search_query = request.GET.get('search')
     if search_query:
         wasteRecord_list = wasteRecord_list.filter(
             disposal_slip_no__icontains=search_query,
-            # manifest_no__icontains=search_query,
-            # land_fill__icontains=search_query,
-            # entry_date__icontains=search_query,
         )
     paginator = Paginator(wasteRecord_list, 10)
     page = request.GET.get('page')
@@ -190,7 +179,6 @@ def WasteRecordList(request):
 
 def WasteRecordUpdate(request, id):
     wasteRecord_Obj = WasteRecord.objects.get(id=id)
-    print(wasteRecord_Obj.recyclable_item)
     mydate = wasteRecord_Obj.entry_date
 
     if request.method =='POST':
@@ -239,7 +227,6 @@ def WasteRecordUpdate(request, id):
 
 def DelWasteRecord(request, id):
     wasteRecord_obj =  WasteRecord.objects.get(id=id)
-    print(wasteRecord_obj)
     wasteRecord_obj.delete()
     messages.warning(request, 'The Waste Record “{}” was deleted successfully.'.format(wasteRecord_obj))
     return redirect('/waste_records/list')
@@ -250,7 +237,6 @@ def ComplianceCertificate(request):
 
 def MonthlyWasteReport(request):
     year_month = str(request.POST.get('year_month'))
-    print(year_month)
     if request.method == 'POST':
         if year_month:
             year_month = year_month.split('-')
@@ -372,7 +358,6 @@ class GeneratePdf(View):
             total_liquid_waste = response.aggregate(Sum('liquid_waste'))
             total_bin_gw = response.aggregate(Sum('bin_GW'))
             total_waste = response.aggregate(Sum('total_waste'))
-            print(total_bin_gw)
             respdt = HttpResponse(content_type='application/pdf')
             filename = 'waste reports'
             context = {

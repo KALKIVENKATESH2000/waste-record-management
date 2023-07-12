@@ -205,7 +205,7 @@
                               {% for wR in wasteRecord_Obj %}
                               <tr>
                                 <td>{{forloop.counter}}</td>
-                                <td>{{wR.entry_date}}</td>
+                                <td>{{wR.entry_date | date:"M d, Y"}}</td>
                                 <td>{{wR.manifest_no}}</td>
                                 <td>{{wR.disposal_slip_no}}</td>
                                 <td>{{wR.land_fill}}</td>

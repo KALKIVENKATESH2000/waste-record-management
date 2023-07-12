@@ -183,7 +183,7 @@
                                   {% for resp in response %}
                                     <tbody>
                                       <td>{{forloop.counter}}</td>
-                                      <td>{{resp.entry_date}}</td>
+                                      <td>{{resp.entry_date | date:"M d, Y"}}</td>
                                       <td width="120">{{resp.manifest_no}}</td>
                                       <td>{{resp.disposal_slip_no}}</td>
                                       <td>{{resp.vehicle_registration}}</td>
