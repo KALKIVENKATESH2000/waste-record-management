@@ -157,15 +157,15 @@
                     <form class="form-inline app-new-form my-2 my-lg-0">
                       <input
                         class="form-control mr-sm-2"
-                        type="search"
-                        placeholder="Search Waste"
+                        type="text" name="search"
+                        placeholder="Search by name"
                         aria-label="Search"
                       />
                       <div class="search-image">
-                        <img
+                        <button type="submit"><img
                           src="{% static 'images/user-management/search.svg' %}"
                           alt=""
-                        />
+                        /></button>
                       </div>
                     </form>
                     <div class="user-management-icons">
@@ -179,7 +179,7 @@
                           </a>
                         </li>
                         <li class="person-drop-down">
-                          <a href="">
+                          <a type="button" data-toggle="dropdown">
                             <img
                               src="{% static 'images/user-management/person.svg' %}"
                               alt=""
@@ -380,6 +380,25 @@
                         </div>
                           {% endfor %}
 
+                      </div>
+                      <div class="app-new-pagination">
+                        <nav aria-label="Page navigation example">
+                          <ul class="pagination">
+                            {% if user_list.has_previous %}
+                              <li class="page-item"><a class="page-link app-new-page-link" href="?page={{ user_list.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}"">Previous</a></li>
+                            {% endif %}
+                            {% for page_num in user_list.paginator.page_range %}
+                                {% if user_list.number == page_num %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if user_list.has_next %}
+                              <li class="page-item"><a class="page-link app-new-page-link"href="?page={{ user_list.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">Next</a></li>
+                            {% endif %}
+                          </ul>
+                        </nav>
                       </div>
                     </div>
                   </div>

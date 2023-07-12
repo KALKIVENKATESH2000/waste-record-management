@@ -149,7 +149,7 @@
                                   </a>
                                 </li>
                                 <li class="person-drop-down">
-                                  <a href="">
+                                  <a href="" type="button" data-toggle="dropdown">
                                     <img
                                       src="{% static 'images/user-management/person.svg' %}"
                                       alt=""
@@ -172,7 +172,7 @@
                         <p>Lorem Epson is a dummy word to fill the sentences Lorem Epson is a dummy word to fill the sentences</p>
                     </div>
               <div class="waste-record app-new-waste-record-2">
-                <form method="post">
+                <form method="post" id="myForm">
                   {% csrf_token %}
                 <div class="row align-item-center">
                 <div class="col-md-6">

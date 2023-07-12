@@ -15,6 +15,8 @@ from .models import RECYCLEBLE_ITEM_CHOICES
 import csv
 import xlwt
 from django.db.models import Sum
+from django.db.models import Count
+
 
 
 # User = get_user_model()
@@ -24,9 +26,24 @@ from django.db.models import Sum
 def UserManagement(request):
     user_list = CustomUser.objects.filter(is_staff=False)
     user_count = user_list.count()
+    search_query = request.GET.get('search')
+    if search_query:
+        user_list = user_list.filter(
+            first_name__icontains=search_query,
+        )
+    paginator = Paginator(user_list, 10)
+    page = request.GET.get('page')
+    
+    try:
+        user_list = paginator.get_page(page)
+    except PageNotAnInteger:
+        user_list = paginator.get_page(1)
+    except EmptyPage:
+        user_list = paginator.get_page(paginator.num_pages)
     context = {
         "user_list" : user_list,
-        "user_count" : user_count
+        "user_count" : user_count,
+        "search_query": search_query
     }
     return render(request, 'user-management.html', context)
 
@@ -233,20 +250,24 @@ def ComplianceCertificate(request):
 
 def MonthlyWasteReport(request):
     year_month = str(request.POST.get('year_month'))
-    if 'year_month' in request.POST:
-        year_month = year_month.split('-')
-        month = year_month[0]
-        year = year_month[1]
-        start_date = datetime(year=int(year), month=int(month), day=1)
-        request.session['start_date'] = str(start_date)
-        end_date = datetime(year=int(year), month=int(month), day=int(calendar.monthrange(int(year), int(month))[1]))
-        request.session['end_date'] = str(end_date)
-        return redirect('/waste_reports/')
+    print(year_month)
+    if request.method == 'POST':
+        if year_month:
+            year_month = year_month.split('-')
+            month = year_month[0]
+            year = year_month[1]
+            start_date = datetime(year=int(year), month=int(month), day=1)
+            request.session['start_date'] = str(start_date)
+            end_date = datetime(year=int(year), month=int(month), day=int(calendar.monthrange(int(year), int(month))[1]))
+            request.session['end_date'] = str(end_date)
+            return redirect('/waste_reports/')
+        else:
+            messages.info(request, 'select year and month')
     else:
-        # messages.info(request, 'Please select month and year.')
         pass
     return render(request, 'monthly-waste-report.html')
-from django.db.models import Count
+
+
 
 def ContractorDetails(request):
     sites = []
