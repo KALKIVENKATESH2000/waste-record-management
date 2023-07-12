@@ -30,24 +30,21 @@ def UserManagement(request):
     }
     return render(request, 'user-management.html', context)
 
+# @admin_only
 def AddUser(request):
     if request.method =='POST':
         member_id = request.POST.get('member_id')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-        # username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        
-        userObj = CustomUser.objects.create(
-            member_id=member_id,
+        userObj = CustomUser.objects.create_user(member_id=member_id,
             first_name=first_name, 
             last_name=last_name, 
             username=email,
             password=password,
-            email=email,
-        )
+            email=email,)
         messages.success(request, 'The user “{}” was added successfully.'.format(userObj))
         return redirect('/')
     return render(request, 'user-management.html')
@@ -244,6 +241,7 @@ def MonthlyWasteReport(request):
         request.session['start_date'] = str(start_date)
         end_date = datetime(year=int(year), month=int(month), day=int(calendar.monthrange(int(year), int(month))[1]))
         request.session['end_date'] = str(end_date)
+        return redirect('/waste_reports/')
     else:
         # messages.info(request, 'Please select month and year.')
         pass
@@ -366,11 +364,12 @@ class GeneratePdf(View):
                 'total_waste':total_waste,
                 'total_bin_gw':total_bin_gw
             }
-            print(context)
             # pdf = render_to_pdf('pdf/invoice.html', data)
+             
+            # pdf = render_to_pdf('pdf/invoice.html', context)
+            # return HttpResponse(pdf, content_type='application/pdf')
             result = generate_pdf('pdf/invoice.html',file_object=respdt,context=context)
             result['Content-Disposition'] = 'attachment; filename="{}.pdf"'.format(filename)
-            # return HttpResponse(pdf, content_type='application/pdf')
             return result
         else:
             messages.info(request, 'Please select month and year.')

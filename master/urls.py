@@ -19,7 +19,7 @@ urlpatterns = [
     path('contrator/details', ContractorDetails, name='contrator_details'),
     path('contrator/list', ContractorList, name='contrator_list'),
     path('contrator/list/export_csv', Export_ContractorList, name='export_contractors_list'),
-    path('download/', GeneratePdf.as_view(), name='download_reports')
+    path('waste_reports/', GeneratePdf.as_view(), name='download_reports')
      
     
      

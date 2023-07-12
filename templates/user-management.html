@@ -199,7 +199,7 @@
                 </nav>
               </div>
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                   <div class="user-list">
                     <div class="user-list-content">
                       <div class="user-list-content-2 app-new-user-list-content-model">
@@ -306,7 +306,6 @@
                                   <option>In-Active</option>
                                   {% endif %}
                                 </select>
-                                
                               </td>
                               <td>
                                 <a data-toggle="modal" data-target="#editModal{{ user.id }}">
@@ -384,7 +383,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                {% comment %} <div class="col-md-4">
                   <div class="quotes-diversion">
                     <div class="qutoes-box">
                       <div class="qutoes-box-content">
@@ -482,7 +481,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> {% endcomment %}
               </div>
             </div>
           </div>

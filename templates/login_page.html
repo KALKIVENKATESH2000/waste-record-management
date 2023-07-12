@@ -37,7 +37,8 @@
         <div class="container">
             <div class="kaysim-login">
                 <div class="kaysim-login-logo">
-                    <img src="{% static 'images/logo/recycling.svg'%}" alt="">
+                    {% comment %} <img src="{% static 'images/logo/recycling.svg'%}" alt=""> {% endcomment %}
+                    <h2>Waste Record System</h2>
                 </div>
                 <div class="kaysim-login-form">
                     <form method="POST" action=''>
@@ -48,10 +49,10 @@
                             </div>
                             <div class="kaysim-form">
                                 <div class="form-group">
-                                    <input type="text" name="username" class="form-control app-new-form-control-kaysim" id="username" aria-describedby="emailHelp" placeholder="Username...">
+                                    <input type="text" name="username" class="form-control app-new-form-control-kaysim" id="username" aria-describedby="emailHelp" placeholder="Enter email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="password" id="id_password" placeholder="Password...">
+                                    <input type="password" class="form-control" name="password" id="id_password" placeholder="Enter password">
                                     <i class="fa-solid fa-eye" id="eye"></i>
                                     <div class="forgot-password">
                                         <a href="{% url 'password_reset' %}">Forgot Password?</a>

@@ -1054,6 +1054,7 @@ body{
         background-color: #fff;
         box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
         border: unset;
+        padding: 0px 0px 0px 10px;
 
    }
    .waste-record-list .app-new-contractor-list .dob .Zebra_DatePicker_Icon{
@@ -1358,4 +1359,11 @@ body{
   .app-new-excel .navbar  ul li .excel img{
     width: 15px;
     margin-right: 8px;
+  }
+  /* .waste-record-list .app-new-contractor-list .dob input:focus-visible{
+    outline:unset !important;
+    
+  } */
+  .waste-record-list .app-new-contractor-list .dob input{
+    border: 1px solid #2C2C2C;
   }
