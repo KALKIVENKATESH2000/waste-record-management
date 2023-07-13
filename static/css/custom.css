@@ -1226,6 +1226,7 @@ body{
     text-decoration: none;
     margin-bottom: 15px;
     font-weight: 500;
+    border: 0px;
    }
    .kaysim-form-content .login-button p{
     font-family: 'Objectivity';
