@@ -95,29 +95,34 @@
                             </div>
                         </div>
                         {% if user.is_superuser %}
-                        <div class="">
-                          <div class="app-new-main-form">
-                            <div class="captute-waste-form">
-                                  <select class="selectpicker" id="company" name="company">
-                                    <option value="">Select a Company</option>
-                                    {% for company in companies_list  %}
-                                    <option value="{{company.id}}">{{company}}</option>                                 
-                                    {% endfor %}
-                                  </select>
-                            </div>
-                        </div>
-                        </div>
+                       
                         {% endif %}
                     </div>
+                    <div class="col-lg-6">
+
                   </div>
-                  
+                  <div class="col-lg-6">
+                    <div class="app-new-select-month">
+                      <div class="app-new-main-form">
+                        <div class="captute-waste-form">
+                              <select class="selectpicker" id="company" name="company" required>
+                                <option value="">Select a Company</option>
+                                {% for company in companies_list  %}
+                                <option value="{{company.id}}">{{company}}</option>                                 
+                                {% endfor %}
+                              </select>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
                   <div class="app-new-button-content">
                     <div class="app-comapany-submit-button app-new-app-comapany-submit-button">
                         <button type="reset" class="btn-1">Reset</button>
                         <button type="submit" class="btn-2">Submit</button>
                     </div>
                   </div>
-                </div>
+                
                 </form>
                 <div class="waste-record app-new-waste-record-2">
                   <div class="row align-item-center">
@@ -136,7 +141,7 @@
                               <h5>Monthly Waste  Report</h5>
                               <p>January 2023</p>
                             </div>
-                            <div>
+                            <div class="d-flex justify-content-end">
                               <a href="{% url 'download_reports' %}" target="_blank"><img src="{% static 'images/compliance-certificate/download_pdf.svg'%}"></a>
                             </div>
                           </div>

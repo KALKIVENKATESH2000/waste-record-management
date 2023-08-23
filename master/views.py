@@ -84,6 +84,7 @@ def update_user(request, user_id):
         messages.info(request, 'The user “{}” was updated successfully.'.format(user))
         return redirect('/')
 
+@login_required(login_url='login')
 def CompanyDetails(request):
     if request.user.is_superuser:
         if request.method =='POST':
@@ -111,24 +112,27 @@ def CompanyDetails(request):
                 vat_no=vat_no,
                 company_logo=company_logo,
             )
-
             messages.success(request, 'The Companey “{}” was added successfully.'.format(company_obj))
             return redirect('/company_details/')
         return render(request, 'company-details.html')
     else:
         company = request.user.company
         company_details = Company.objects.get(name=company)
-        print(company_details.company_logo)
+        if request.method =='POST':
+            company_details.branches = request.POST.get('branches' '')
+            company_details.save()
+            messages.success(request, 'The branches “{}” was updated.'.format(company_details.branches))
+            return redirect('/company_details/')
         return render(request, 'company-details.html', {'company':company_details})
         
 
 def CaptureWasteRecord(request):
     branches = []
-    company = request.user.company
-    print('%%%%%%%%%%%%%%5',company)
-    branches_list = Company.objects.filter(name=company).values_list('branches', flat=True)
-    # site_list = list(set(Company.objects.values_list('branches', flat=True)))
-    print(branches_list)
+    if request.user.is_superuser:
+        branches_list = list(set(Company.objects.values_list('branches', flat=True)))
+    else:
+        company = request.user.company
+        branches_list = Company.objects.filter(name=company).values_list('branches', flat=True)
     joined_string = ','.join(branches_list)
     result = [value.strip() for value in joined_string.split(',')]
     unique_values = list(set(result))
@@ -283,8 +287,6 @@ def MonthlyWasteReport(request):
             request.session['start_date'] = str(start_date)
             end_date = datetime(year=int(year), month=int(month), day=int(calendar.monthrange(int(year), int(month))[1]))
             request.session['end_date'] = str(end_date)
-            # companyId = Company.objects.get(id=companyId)
-            # print('companyId', companyId.id)
             request.session['companyId'] = companyId
             return redirect('/waste_reports/')
         else:

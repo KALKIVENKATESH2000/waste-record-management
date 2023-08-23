@@ -347,6 +347,7 @@ body{
     font-family: 'Objectivity';
     font-style: normal;
     font-weight: 500;
+    color: black;
     font-size: 15px;
     border-radius: 50px;
     border: 1px solid #006838;
@@ -623,7 +624,7 @@ body{
 }
 
 .app-new-button-content{
-    padding: 50px 0px;
+    padding: 30px 0px;
 
 }
 .waste-record-list{
@@ -710,8 +711,7 @@ body{
 .permit-oraganic-box{
     background-color: #FFFFFF;
     border-radius: 20px;
-    min-height: 140px;
-
+    height: 100%;
 }
 .permit-oraganic-box-content{
     padding: 20px;
@@ -1023,7 +1023,7 @@ body{
    }
    .monthly-report-waste-box-content{
     display: flex;
-    align-items: center;
+    flex-direction: column;
     padding: 20px;
    }
    .app-new-captute-waste-form .Zebra_DatePicker_Icon_Wrapper input{
@@ -1395,4 +1395,7 @@ body{
   }
   .app-new-upload-file input{
     border: unset;
+  }
+  .app-new-select-month{
+    width: 320px !important;
   }

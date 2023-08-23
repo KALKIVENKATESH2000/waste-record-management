@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 def unauthenticated_user(view_func):
     def warpper_func(request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('home')
+            return redirect('/')
         elif request.user.is_authenticated == None:
             return redirect('login')
         else:
