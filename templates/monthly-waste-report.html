@@ -94,13 +94,10 @@
                                 <input type="text" id="datepicker" name="year_month"  placeholder="MM/YYYY">
                             </div>
                         </div>
-                        {% if user.is_superuser %}
-                       
-                        {% endif %}
                     </div>
                     <div class="col-lg-6">
-
                   </div>
+                  {% if user.is_superuser %}
                   <div class="col-lg-6">
                     <div class="app-new-select-month">
                       <div class="app-new-main-form">
@@ -115,6 +112,7 @@
                     </div>
                     </div>
                   </div>
+                  {% endif %}
                 </div>
                   <div class="app-new-button-content">
                     <div class="app-comapany-submit-button app-new-app-comapany-submit-button">
@@ -122,8 +120,8 @@
                         <button type="submit" class="btn-2">Submit</button>
                     </div>
                   </div>
-                
                 </form>
+                </div>
                 <div class="waste-record app-new-waste-record-2">
                   <div class="row align-item-center">
                   <div class="col-md-6">
