@@ -19,6 +19,10 @@
       rel="stylesheet"
       href="{% static 'zebra-datepicker/Zebra_Datepicker-master/dist/css/bootstrap/zebra_datepicker.min.css' %}"
     />
+    <link rel="stylesheet" type="text/css" href="{% static 'tags-inputs/tagsinput.js' %}" />
+
+    <script src="{% static 'tags-inputs/tagsinput.js' %}"></script>
+    
     <title>Kaysim Waste Record System</title>
     <link rel="icon" href="{% static 'images/logo/favicon.svg' %}" />
   </head>
@@ -40,103 +44,7 @@
 	</style>
   <body>
     <section class="app-banner">
-      <nav class="navbar app-new-user-navbar navbar-expand-lg fixed-top">
-        <a class="navbar-brand" href="{% url 'users_list' %}">
-          <img src="{% static 'images/logo/recycling.svg' %}" alt="" />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'users_list' %}"
-                >User Management <span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'company_details' %}"
-                >Company Details</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'waste_records' %}"
-                >Capture Waste Record</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'waste_records_list' %}"
-                >Waste Record List</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'compliance_records' %}"
-                >Compliance Certificate Download</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link app-new-arrow-link nav-link-collapse"
-                href="#"
-                id="hasSubItems"
-                data-toggle="collapse"
-                data-target="#collapseSubItems1"
-                aria-controls="collapseSubItems1"
-                aria-expanded="false"
-                >Reports</a
-              >
-              <ul
-                class="nav-second-level collapse"
-                id="collapseSubItems1"
-                data-parent="#navAccordion"
-              >
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'monthly_wastwe_reports' %}">
-                    <span class="nav-link-text">Monthly Waste Report</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link app-new-arrow-link-2 nav-link-collapse"
-                href="#"
-                id="hasSubItems"
-                data-toggle="collapse"
-                data-target="#collapseSubItems2"
-                aria-controls="collapseSubItems2"
-                aria-expanded="false"
-                >Jobs Creation</a
-              >
-              <ul
-                class="nav-second-level collapse"
-                id="collapseSubItems2"
-                data-parent="#navAccordion"
-              >
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'contrator_details' %}">
-                    <span class="nav-link-text">Contractor Details</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'contrator_list' %}">
-                    <span class="nav-link-text">Contractor List</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      {% include "base.html" %}
       
       <main class="content-wrapper">
         <div class="container-fluid">
@@ -195,6 +103,7 @@
                          </div>
                        </nav>
                     </div>
+                    {% if user.is_superuser %}
                     <div class="company-details">
                       <form method="post" enctype="multipart/form-data">
                         {% csrf_token %} 
@@ -253,8 +162,8 @@
                                 <div class="app-new-main-form">
                                         <div class="form-group">
                                           <label for="branches">Branches</label>
-                                          <input type="text" class="form-control" id="branches_id" name="branches" placeholder="Type branches separated by commas">
-                                          <ul id="stringList"></ul>
+                                          <input class="form-control" id="input-skill" name="branches" data-role="tagsinput" placeholder="Type branches separated by commas">
+                                          {% comment %} <ul id="stringList"></ul> {% endcomment %}
                                           {% comment %} <button type="button" onclick="AddStringsToArray()" class="branch-button">
                                             <img src="{% static 'images/company-name/branch-button.svg'%}" alt="">
                                           </button> {% endcomment %}
@@ -272,9 +181,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="app-new-main-form">
-                                        <div class="form-group">
+                                        <div class="form-group app-new-upload-file-2">
                                           <label for="logo">Company Logo</label>
-                                          <input type="file" class="form-control" id="logo" name="logo">
+                                          <input type="file" class="form-control app-new-form-control-file" id="logo" name="logo">
                                         </div>
                                 </div>
                             </div>
@@ -283,6 +192,93 @@
                             <button type="reset" class="btn-1">Reset</button>
                             <button type="submit" class="btn-2">Save</button>
                         </div>
+                        {% else %}
+                        <div class="company-details">
+                          <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %} 
+                            <div class="app-comapany-form">
+                               <div class="row">
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                        <div class="form-group">
+                                          <label for="name">Company Name</label>
+                                          <input type="text" class="form-control" id="name" name="name" value="{{company.name}}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                        
+                                          <div class="form-group">
+                                            <label for="contact_number">Company Contact Person</label>
+                                            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{company.contact_number}}" readonly>
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                            <div class="form-group">
+                                              <label for="address">Company Address</label>
+                                              <input class="form-control" id="address" name="address"  value="{{company.address}}" readonly>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                            <div class="form-group">
+                                              <label for="email">Email</label>
+                                              <input type="email" class="form-control" id="email" name="email" value="{{company.email}}" readonly>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                            <div class="form-group">
+                                              <label for="person_number">Contact Number </label>
+                                              <input type="number" class="form-control" id="person_number" name="person_number" value="{{company.person_number}}" readonly>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                            <div class="form-group">
+                                              <label for="register_no">Company Reg No.</label>
+                                              <input type="text" class="form-control" id="register_no" name="register_no" value="{{company.register_no}}" readonly>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                            <div class="form-group">
+                                              <label for="branches">Branches</label>
+                                              <input class="form-control" id="input-skill" name="branches" data-role="tagsinput" value="{{company.branches}}" readonly>
+                                            </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                            <div class="form-group">
+                                              <label for="vat_no">Company VAT No.</label>
+                                              <input type="text" class="form-control" id="vat_no" name="vat_no" value="{{company.vat_no}}" readonly>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="app-new-main-form">
+                                            <div class="form-group app-new-upload-file-2">
+                                              <label for="logo">Company Logo</label>
+                                              <!-- <input type="file" class="form-control app-new-form-control-file" id="logo" name="logo" value="{{company.company_logo}}" readonly> -->
+                                              <img src="/media/{{company.company_logo}}" style="height: 40px;">
+                                            </div>
+                                    </div>
+                                </div>
+                               </div>
+                            <!-- <div class="app-comapany-submit-button">
+                                <button type="reset" class="btn-1">Reset</button>
+                                <button type="submit" class="btn-2">Save</button>
+                            </div> -->
+                        {% endif %}
                         <div class="button-content">
                         <p>Lorem Epson is a dummy word to fill the sentences Lorem Epson is a dummy word to fill the sentences</p>
                       </form>  

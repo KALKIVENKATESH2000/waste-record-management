@@ -52,103 +52,7 @@
   </style>
   <body>
     <section class="app-banner">
-      <nav class="navbar app-new-user-navbar navbar-expand-lg fixed-top">
-        <a class="navbar-brand" href="{% url 'users_list' %}">
-          <img src="{% static 'images/logo/recycling.svg' %}" alt="" />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'users_list' %}"
-                >User Management <span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'company_details' %}"
-                >Company Details</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'waste_records' %}"
-                >Capture Waste Record</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'waste_records_list' %}"
-                >Waste Record List</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'compliance_records' %}"
-                >Compliance Certificate Download</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link app-new-arrow-link nav-link-collapse"
-                href="#"
-                id="hasSubItems"
-                data-toggle="collapse"
-                data-target="#collapseSubItems1"
-                aria-controls="collapseSubItems1"
-                aria-expanded="false"
-                >Reports</a
-              >
-              <ul
-                class="nav-second-level collapse"
-                id="collapseSubItems1"
-                data-parent="#navAccordion"
-              >
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'monthly_wastwe_reports' %}">
-                    <span class="nav-link-text">Monthly Waste Report</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link app-new-arrow-link-2 nav-link-collapse"
-                href="#"
-                id="hasSubItems"
-                data-toggle="collapse"
-                data-target="#collapseSubItems2"
-                aria-controls="collapseSubItems2"
-                aria-expanded="false"
-                >Jobs Creation</a
-              >
-              <ul
-                class="nav-second-level collapse"
-                id="collapseSubItems2"
-                data-parent="#navAccordion"
-              >
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'contrator_details' %}">
-                    <span class="nav-link-text">Contractor Details</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'contrator_list' %}">
-                    <span class="nav-link-text">Contractor List</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      {% include "base.html" %}
       <main class="content-wrapper">
         <div class="container-fluid">
           <div class="user-management">
@@ -202,237 +106,253 @@
                 <form method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                 <div class="company-details app-new-company-details">
-                    <div class="app-comapany-form"> 
-                       <div class="row">
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                                <div class="captute-waste-form">
-                                    <div class="select-month-content">
-                                        <h3>Select Month</h3>
-                                    </div>
-                                      <select class="selectpicker" id="month" name="month" value="{{wasteRecord_Obj.month}}">
-                                        <option value="">Select a month</option>
-                                        <option value="January">January</option>                                    
-                                        <option value="February">February</option>                                    
-                                        <option value="March">March</option>                                    
-                                        <option value="April">April</option>                                   
-                                        <option value="May">May</option>
-                                        <option value="June">June</option>                                   
-                                        <option value="July">July</option>                                   
-                                        <option value="August">August</option>                                   
-                                        <option value="September">September</option>
-                                        <option value="October">October</option>
-                                        <option value="November">November</option>                                   
-                                        <option value="December">December</option>                                    
-                                      </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                                <div class="captute-waste-form app-new-captute-waste-form-main">
-                                  <label for="entry_date" style="margin-right:10px;">Select Entry Date</label>
-                                  <input type="text" id="datepicker" name="entry_date" placeholder="DD/MM/YYYY">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                                <div class="form-group">
-                                  <label for="manifest_no">Manifest Number</label>
-                                  <input type="text" class="form-control" name="manifest_no" id="manifest_no" placeholder="Enter manifest number">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                              <div class="form-group">
-                                <label for="disposal_slip_no">Disposal Slip Number</label>
-                                <input type="text" class="form-control" name="disposal_slip_no" id="disposal_slip_no" placeholder="Enter disposal slip numner">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                              <div class="form-group">
-                                <label for="vehicle_registration">Vehicle Registration</label>
-                                <input type="text" class="form-control" name="vehicle_registration" id="vehicle_registration" placeholder="Enter vehicle registration">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                              <div class="form-group">
-                                <label for="bin_size">Bin Size</label>
-                                <input type="text" class="form-control" name="bin_size" id="bin_size" placeholder="Enter bin size in Kgs">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                                <div class="captute-waste-form">
-                                    <div class="select-month-content">
-                                        <h3>Land fill </h3>
-                                    </div>
-                                    <select class="selectpicker" id="land_fill" name="land_fill">
-                                        <option value="">Select a Landfill</option>
-                                        <option value="W.D. Hall">W.D. Hall</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                              <div class="form-group">
-                                <label for="bin_GW">Bin - GW</label>
-                                <input type="number" class="form-control" name="bin_GW" id="bin_GW" placeholder="Enter Bins-GW" onchange="calculate()">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                                <div class="captute-waste-form">
-                                    <div class="select-month-content">
-                                        <h3>Recyclable Item</h3>
-                                    </div>
-                                    <select class="selectpicker" name="recyclable_item" id="recyclable_item">
-                                        <option>Select Recyclable Item</option>
-                                        {% for choice in choices %}
-                                          <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                              <div class="form-group">
-                                <label for="solid_waste">Solid Waste</label>
-                                <input type="number" class="form-control" name="solid_waste" id="solid_waste" placeholder="Enter solid waste in Kgs" onchange="calculate()">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                              <div class="form-group">
-                                <label for="liquid_waste">Liquid Waste</label>
-                                <input type="number" class="form-control" name="liquid_waste" id="liquid_waste" placeholder="Enter liquid waste in Ltr" onchange="calculate()">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                              <div class="form-group">
-                                <label for="hazardous_waste">Hazardous Waste</label>
-                                <input type="number" class="form-control" name="hazardous_waste" id="hazardous_waste" placeholder="Enter liquid waste in Kgs" onchange="calculate()">
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                                <div class="form-group">
-                                  <label for="rubble">Rubble</label>
-                                  <input type="number" class="form-control" name="rubble" id="rubble" placeholder="Enter rubble" onchange="calculate()">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="app-new-main-form">
-                              <div class="form-group">
-                                <label for="total_waste">Total Waste in Tonnage</label>
-                                <input type="text" class="form-control" name="total_waste" id="total_waste" readonly placeholder="Total waste in Tonnage ">
-                              </div>
-                            </div>
-                        </div>
-                      </div>
-                        <div class="upload-card tabs">
-                            <div class="upload-card-list tabs">
-                                <ul>
-                                    <li>
-                                        <button type="button" class="tab-button active" onclick="openTab(event, 'tab1')">Collection Note</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="tab-button" onclick="openTab(event, 'tab2')">Service Provider Certificate</button>
-                                    </li>                                                
-                                    <li>
-                                        <button  type="button" class="tab-button" onclick="openTab(event, 'tab3')">Landfill Disposal Certificate</button>
-                                    </li>
-                                    <li>
-                                        <button  type="button" class="tab-button" onclick="openTab(event, 'tab4')">Lab Test Result</button>
-                                    </li>
-                                    <li>
-                                        <button  type="button" class="tab-button" onclick="openTab(event, 'tab5')">Weighbridge Ticket</button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="upload-file">
-                                <div class="upload-file-content">
-                                <div class="input-group">
-                                    <div  id="tab1" class="custom-file app-new-custom-file tab-content" style="display: block;">
-                                      <input type="file" class="custom-file-input" id="file1" name="file1" onchange="getFileData('file1');" aria-describedby="inputGroupFileAddon01">
-                                      <label class="custom-file-label" for="file1">
-                                        <div class="app-new-custom-file-label">
-                                            <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
-                                            <h5>Upload File</h5>
-                                            <h6>your file <span>here or Browse Files</span></h6>
-                                            <p id="file1_id"></p>
-                                            <p>Only certain file types are allowed</p>
-                                        </div>
-                                      </label>
-                                    </div>
-                                    <div  id="tab2" class="custom-file app-new-custom-file tab-content" style="display: none;">
-                                      <input type="file" class="custom-file-input" id="file2" name="file2" onchange="getFileData('file2');"  aria-describedby="inputGroupFileAddon01">
-                                      <label class="custom-file-label" for="file2">
-                                        <div class="app-new-custom-file-label">
-                                            <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
-                                            <h5>Upload File</h5>
-                                            <h6>your file <span>here or Browse Files</span></h6>
-                                            <p id="file2_id"></p>
-                                            <p>Only certain file types are allowed</p>
-                                        </div>
-                                      </label>
-                                    </div>
-                                    <div  id="tab3" class="custom-file app-new-custom-file tab-content" style="display: none;">
-                                      <input type="file" class="custom-file-input" id="file3" name="file3" onchange="getFileData('file3');" aria-describedby="inputGroupFileAddon01">
-                                      <label class="custom-file-label" for="file3">
-                                        <div class="app-new-custom-file-label">
-                                            <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
-                                            <h5>Upload File</h5>
-                                            <h6>your file <span>here or Browse Files</span></h6>
-                                            <p id="file3_id"></p>
-                                            <p>Only certain file types are allowed</p>
-                                        </div>
-                                      </label>
-                                    </div>
-                                    <div  id="tab4" class="custom-file app-new-custom-file tab-content" style="display: none;">
-                                      <input type="file" class="custom-file-input" id="file4" name="file4"  onchange="getFileData('file4');" aria-describedby="inputGroupFileAddon01">
-                                      <label class="custom-file-label" for="file4">
-                                        <div class="app-new-custom-file-label">
-                                            <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
-                                            <h5>Upload File</h5>
-                                            <h6>your file <span>here or Browse Files</span></h6>
-                                            <p id="file4_id"></p>
-                                            <p>Only certain file types are allowed</p>
-                                        </div>
-                                      </label>
-                                    </div>
-                                    <div  id="tab5" class="custom-file app-new-custom-file tab-content" style="display: none;">
-                                      <input type="file" class="custom-file-input" id="file5" name="file5" onchange="getFileData('file5');" aria-describedby="inputGroupFileAddon01">
-                                      <label class="custom-file-label" for="file5">
-                                        <div class="app-new-custom-file-label">
-                                            <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
-                                            <h5>Upload File</h5>
-                                            <h6>your file <span>here or Browse Files</span></h6>
-                                            <p id="file5_id"></p>
-                                            <p>Only certain file types are allowed</p>
-                                        </div>
-                                      </label>
-                                    </div>
-                                  </div>
-                                  </div>
-                            </div>
-                        </div>
-                    </div>     
+                  <div class="app-comapany-form"> 
+                    <div class="row">
+                     <div class="col-md-6">
+                         <div class="app-new-main-form">
+                             <div class="captute-waste-form">
+                                 <div class="select-month-content">
+                                     <h3>Select Branch</h3>
+                                 </div>
+                                   <select class="selectpicker" id="branch" name="branch">
+                                     <option value="">Select a Branch</option>
+                                     {% for branch in branches  %}
+                                     <option value="{{branch}}">{{branch}}</option>                                    
+                                     {% endfor %}
+                                   </select>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="app-new-main-form">
+                             <div class="captute-waste-form app-new-captute-waste-form-main">
+                               <label for="entry_date" style="margin-right:15px;">Select Entry Date</label>
+                               <input type="text" id="datepicker" name="entry_date" placeholder="DD/MM/YYYY">
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                       <div class="app-new-main-form">
+                         <div class="captute-waste-form">
+                             <div class="select-month-content">
+                                 <h3>Select Month</h3>
+                             </div>
+                               <select class="selectpicker" id="month" name="month">
+                                 <option value="">Select a Month</option>
+                                 <option value="January">January</option>                                    
+                                 <option value="February">February</option>                                    
+                                 <option value="March">March</option>                                   
+                                 <option value="April">April</option>                                   
+                                 <option value="May">May</option>
+                                 <option value="June">June</option>                                   
+                                 <option value="July">July</option>                                   
+                                 <option value="August">August</option>                                   
+                                 <option value="September">September</option>
+                                 <option value="October">October</option>
+                                 <option value="November">November</option>                                   
+                                 <option value="December">December</option>                                    
+                               </select>
+                         </div>
+                     </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="app-new-main-form">
+                           <div class="form-group">
+                             <label for="disposal_slip_no">Disposal Slip Number</label>
+                             <input type="text" class="form-control" name="disposal_slip_no" id="disposal_slip_no" placeholder="Enter disposal slip numner">
+                           </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                       <div class="app-new-main-form">
+                             <div class="form-group">
+                               <label for="manifest_no">Manifest Number</label>
+                               <input type="text" class="form-control" name="manifest_no" id="manifest_no" placeholder="Enter manifest number">
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="app-new-main-form">
+                           <div class="form-group">
+                             <label for="bin_size">Bin Size</label>
+                             <input type="text" class="form-control" name="bin_size" id="bin_size" placeholder="Enter bin size in Kgs">
+                           </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="app-new-main-form">
+                           <div class="form-group">
+                             <label for="vehicle_registration">Vehicle Registration</label>
+                             <input type="text" class="form-control" name="vehicle_registration" id="vehicle_registration" placeholder="Enter vehicle registration">
+                           </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="app-new-main-form">
+                           <div class="form-group">
+                             <label for="bin_GW">Bin - GW</label>
+                             <input type="number" class="form-control" name="bin_GW" id="bin_GW" placeholder="Enter Bins-GW" onchange="calculate()">
+                           </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                       <div class="app-new-main-form">
+                             <div class="captute-waste-form">
+                                 <div class="select-month-content">
+                                     <h3>Land fill </h3>
+                                 </div>
+                                 <select class="selectpicker" id="land_fill" name="land_fill">
+                                      <option value="">Select Landfill</option>
+                                      <option value="W.D. Hall">W.D. Hall</option>
+                                 </select>
+                             </div>
+                         </div>
+                         
+                     </div>
+                     <div class="col-md-6">
+                         <div class="app-new-main-form">
+                           <div class="form-group">
+                             <label for="solid_waste">Solid Waste</label>
+                             <input type="number" class="form-control" name="solid_waste" id="solid_waste" placeholder="Enter solid waste in Kgs" onchange="calculate()">
+                           </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                       <div class="app-new-main-form">
+                             <div class="captute-waste-form">
+                                 <div class="select-month-content">
+                                     <h3>Recyclable Item</h3>
+                                 </div>
+                                 <select class="selectpicker" name="recyclable_item" id="recyclable_item">
+                                    <option value="">Select Recyclable item</option>
+                                     {% for choice in choices %}
+                                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                     {% endfor %}
+                                 </select>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="app-new-main-form">
+                           <div class="form-group">
+                             <label for="hazardous_waste">Hazardous Waste</label>
+                             <input type="number" class="form-control" name="hazardous_waste" id="hazardous_waste" placeholder="Enter liquid waste in Kgs" onchange="calculate()">
+                           </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                       <div class="app-new-main-form">
+                           <div class="form-group">
+                             <label for="liquid_waste">Liquid Waste</label>
+                             <input type="number" class="form-control" name="liquid_waste" id="liquid_waste" placeholder="Enter liquid waste in Ltr" onchange="calculate()">
+                           </div>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="app-new-main-form">
+                           <div class="form-group">
+                             <label for="total_waste">Total Waste in Tonnage</label>
+                             <input type="text" class="form-control" name="total_waste" id="total_waste" placeholder="Total waste in Tonnage ">
+                           </div>
+                         </div>
+                     </div>
+                     <div class="col-lg-6">
+                        <div class="app-new-main-form">
+                             <div class="form-group">
+                               <label for="rubble">Rubble</label>
+                               <input type="number" class="form-control" name="rubble" id="rubble" placeholder="Enter rubble" onchange="calculate()">
+                             </div>
+                         </div>
+                   </div>
+                     <div class="upload-card tabs">
+                         <div class="upload-card-list tabs">
+                             <ul>
+                                 <li>
+                                     <button type="button" class="tab-button active" onclick="openTab(event, 'tab1')">Collection Note</button>
+                                 </li>
+                                 <li>
+                                     <button type="button" class="tab-button" onclick="openTab(event, 'tab2')">Service Provider Certificate</button>
+                                 </li>                                                
+                                 <li>
+                                     <button  type="button" class="tab-button" onclick="openTab(event, 'tab3')">Landfill Disposal Certificate</button>
+                                 </li>
+                                 <li>
+                                     <button  type="button" class="tab-button" onclick="openTab(event, 'tab4')">Lab Test Result</button>
+                                 </li>
+                                 <li>
+                                     <button  type="button" class="tab-button" onclick="openTab(event, 'tab5')">Weighbridge Ticket</button>
+                                 </li>
+                             </ul>
+                         </div>
+                         <div class="upload-file">
+                             <div class="upload-file-content">
+                             <div class="input-group">
+                                 <div  id="tab1" class="custom-file app-new-custom-file tab-content" style="display: block;">
+                                   <input type="file" class="custom-file-input" id="file1" name="file1" onchange="getFileData('file1');" aria-describedby="inputGroupFileAddon01">
+                                   <label class="custom-file-label" for="file1">
+                                     <div class="app-new-custom-file-label">
+                                         <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
+                                         <h5>Upload File</h5>
+                                         <h6>your file <span>here or Browse Files</span></h6>
+                                         <p id="file1_id"></p>
+                                         <p>Only certain file types are allowed</p>
+                                     </div>
+                                   </label>
+                                 </div>
+                                 <div  id="tab2" class="custom-file app-new-custom-file tab-content" style="display: none;">
+                                   <input type="file" class="custom-file-input" id="file2" name="file2" onchange="getFileData('file2');"  aria-describedby="inputGroupFileAddon01">
+                                   <label class="custom-file-label" for="file2">
+                                     <div class="app-new-custom-file-label">
+                                         <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
+                                         <h5>Upload File</h5>
+                                         <h6>your file <span>here or Browse Files</span></h6>
+                                         <p id="file2_id"></p>
+                                         <p>Only certain file types are allowed</p>
+                                     </div>
+                                   </label>
+                                 </div>
+                                 <div  id="tab3" class="custom-file app-new-custom-file tab-content" style="display: none;">
+                                   <input type="file" class="custom-file-input" id="file3" name="file3" onchange="getFileData('file3');" aria-describedby="inputGroupFileAddon01">
+                                   <label class="custom-file-label" for="file3">
+                                     <div class="app-new-custom-file-label">
+                                         <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
+                                         <h5>Upload File</h5>
+                                         <h6>your file <span>here or Browse Files</span></h6>
+                                         <p id="file3_id"></p>
+                                         <p>Only certain file types are allowed</p>
+                                     </div>
+                                   </label>
+                                 </div>
+                                 <div  id="tab4" class="custom-file app-new-custom-file tab-content" style="display: none;">
+                                   <input type="file" class="custom-file-input" id="file4" name="file4" onchange="getFileData('file4');" aria-describedby="inputGroupFileAddon01">
+                                   <label class="custom-file-label" for="file4">
+                                     <div class="app-new-custom-file-label">
+                                         <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
+                                         <h5>Upload File</h5>
+                                         <h6>your file <span>here or Browse Files</span></h6>
+                                         <p id="file4_id"></p>
+                                         <p>Only certain file types are allowed</p>
+                                     </div>
+                                   </label>
+                                 </div>
+                                 <div  id="tab5" class="custom-file app-new-custom-file tab-content" style="display: none;">
+                                   <input type="file" class="custom-file-input" id="file5" name="file5" onchange="getFileData('file5');" aria-describedby="inputGroupFileAddon01">
+                                   <label class="custom-file-label" for="file5">
+                                     <div class="app-new-custom-file-label">
+                                         <img src="{% static 'images/capture-waste-record/upload.svg'%}" alt="">
+                                         <h5>Upload File</h5>
+                                         <h6>your file <span>here or Browse Files</span></h6>
+                                         <p id="file5_id"></p>
+                                         <p>Only certain file types are allowed</p>
+                                     </div>
+                                   </label>
+                                 </div>
+                               </div>
+                               </div>
+                         </div>
+                     </div>
+                 </div> 
+                 </div>     
                 <div class="app-new-button-content">
                 <div class="app-comapany-submit-button app-new-app-comapany-submit-button">
                     <button type="reset" class="btn-1">Reset</button>

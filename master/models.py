@@ -3,6 +3,8 @@ import calendar
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 # from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import get_user_model
+from django.conf import settings
 
 # Create your models here.
 
@@ -67,15 +69,8 @@ def upload_waste_records(instance, filename):
 def company_logos(instance, filename):
     return 'uploads/Company_logos/{filename}'.format(filename=filename)
 
-class CustomUser(AbstractUser):
-    member_id = models.CharField(max_length=100)
-    email = models.EmailField(verbose_name="Email", null=True, unique=True, max_length=250)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['member_id', 'username']
-
-    def __str__(self):
-        return self.first_name + " " + self.last_name
-    
+def complalience_certificates(instance, filename):
+    return 'uploads/complalience_certificates/{filename}'.format(filename=filename)
     
 class Company(models.Model):
     name               = models.CharField(max_length=255)
@@ -84,15 +79,35 @@ class Company(models.Model):
     email              = models.EmailField(max_length=50)
     person_number      = models.CharField(max_length=20)
     register_no        = models.CharField(max_length=50)
-    branches           = models.CharField(max_length=150)
+    branches           = models.CharField(max_length=150, default="", null=True, blank=True)
     vat_no             = models.CharField(max_length=50)
     company_logo       = models.FileField(upload_to=company_logos)
     createdAt          = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.name
+
+
+class CustomUser(AbstractUser):
+    company         = models.ForeignKey(Company,
+                        on_delete=models.CASCADE,
+                        related_name='company',
+                        null=True
+                        )
+    member_id       = models.CharField(max_length=100)
+    email           = models.EmailField(verbose_name="Email", null=True, unique=True, max_length=250)
     
+    USERNAME_FIELD  = 'email'
+    REQUIRED_FIELDS = ['member_id', 'username']
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name
+
+from django.contrib.auth.models import User
+   
 class WasteRecord(models.Model):
+    user                            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
+    branch                          = models.CharField(max_length=50, default='')
     month                           = models.CharField(max_length=20, choices=MONTH_CHOICES)
     entry_date                      = models.DateTimeField(max_length=20)
     manifest_no                     = models.CharField(max_length=255)
@@ -128,3 +143,12 @@ class Contractor(models.Model):
     
     def __str__(self):
         return self.first_name + " " + self.last_name
+    
+    
+class Document(models.Model):
+    title           = models.CharField(max_length=50)
+    description     = models.CharField(max_length=20)
+    file            = models.FileField(upload_to=complalience_certificates)
+    
+    def __str__(self):
+        return self.title

@@ -492,10 +492,11 @@ body{
     linear-gradient(0deg, #FFFFFF, #FFFFFF);
     }
 .captute-waste-form .Zebra_DatePicker_Icon_Wrapper input{
-    width: 330px;
+    width: 316px;
     border-radius: 50px;
     height: 38px;
     border: 1px solid #006838 !important;
+    padding-left: 12px !important;
 } 
 .captute-waste-form .Zebra_DatePicker {
     left: 1156px !important;
@@ -506,7 +507,7 @@ body{
     outline:1px solid #006838 !important;
 }
 .captute-waste-form .Zebra_DatePicker_Icon_Wrapper button{
-    right: -120px !important;
+    right: -110px !important;
     top: 10px !important;
 }
 .captute-waste-form form label{
@@ -716,14 +717,18 @@ body{
     padding: 20px;
 }
 .permit-oraganic-box-content ul{
-    display: flex;
+    /* display: flex;
     justify-content:flex-start;
-    align-items: center;    
+    align-items: center;     */
     padding: 0px;
     margin: 0px;
 }
 .permit-oraganic-box-content ul li{
     list-style: none;
+}
+.permit-oraganic-box ul .upload-new-pdf{
+    display: flex !important;
+    justify-content: flex-end !important;
 }
 .permit-oraganic-box-content ul li h4{
     font-family: 'Objectivity';
@@ -1249,7 +1254,7 @@ body{
     font-weight: 500;
     font-size: 16px;
     background:linear-gradient(256.47deg, #006838 0%, #77C043 50%, #B3CE35 100%) !important;
-    padding: 05px 40px;
+    padding: 05px 20px;
     border-radius: 50px;
     color: #FFFFFF;
    }
@@ -1368,4 +1373,26 @@ body{
   } */
   .waste-record-list .app-new-contractor-list .dob input{
     border: 1px solid #2C2C2C;
+  }
+  .upload-modal{
+    display: flex;
+    justify-content: center;
+  }
+  .permit-oraganic-box{
+    position: relative;
+  }
+  .dots{
+    position: absolute;
+    right: 0;
+    top: 10px;
+  }
+  .app-new-dots-button{
+    background-color: unset;
+    border: unset;
+  }
+  .app-new-dots-button img{
+    width: 20px;
+  }
+  .app-new-upload-file input{
+    border: unset;
   }
