@@ -115,7 +115,7 @@ class WasteRecord(models.Model):
     vehicle_registration            = models.CharField(max_length=20)
     bin_size                        = models.CharField(max_length=50)
     bin_GW                          = models.IntegerField()
-    land_fill                       = models.CharField(max_length=50, choices=LANDFILL_CHOICES, default='W.D. Hal')
+    land_fill                       = models.CharField(max_length=50)
     recyclable_item                 = models.CharField(max_length=50, choices=RECYCLEBLE_ITEM_CHOICES)
     solid_waste                     = models.IntegerField()
     liquid_waste                    = models.IntegerField()
