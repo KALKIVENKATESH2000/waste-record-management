@@ -231,27 +231,36 @@ def WasteRecordUpdate(request, id):
         wasteRecord_Obj.hazardous_waste = request.POST['hazardous_waste']
         wasteRecord_Obj.rubble = request.POST['rubble']
         wasteRecord_Obj.total_waste = request.POST['total_waste']
-
-        if len(request.FILES) != 0:
-            if len(wasteRecord_Obj.collection_note) > 0:
-                os.remove(wasteRecord_Obj.collection_note.path)
-            wasteRecord_Obj.collection_note = request.FILES['file1']
-        if len(request.FILES) != 0:
-            if len(wasteRecord_Obj.service_provider_certificate) > 0:
-                os.remove(wasteRecord_Obj.service_provider_certificate.path)
-            wasteRecord_Obj.service_provider_certificate = request.FILES['file2']
-        if len(request.FILES) != 0:
-            if len(wasteRecord_Obj.landfill_disposal_certificate) > 0:
-                os.remove(wasteRecord_Obj.landfill_disposal_certificate.path)
-            wasteRecord_Obj.landfill_disposal_certificate = request.FILES['file3']
-        if len(request.FILES) != 0:
-            if len(wasteRecord_Obj.lab_test_result) > 0:
-                os.remove(wasteRecord_Obj.lab_test_result.path)
-            wasteRecord_Obj.lab_test_result = request.FILES['file4']
-        if len(request.FILES) != 0:
-            if len(wasteRecord_Obj.weight_bridge_certificate) > 0:
-                os.remove(wasteRecord_Obj.weight_bridge_certificate.path)
-            wasteRecord_Obj.weight_bridge_certificate = request.FILES['file5']
+            
+        file1 = request.FILES.get('file1')
+        if file1:
+            if wasteRecord_Obj.collection_note:
+                wasteRecord_Obj.collection_note.delete()
+            wasteRecord_Obj.collection_note = file1
+            
+        file2 = request.FILES.get('file2')
+        if file2:
+            if wasteRecord_Obj.service_provider_certificate:
+                wasteRecord_Obj.service_provider_certificate.delete()
+            wasteRecord_Obj.service_provider_certificate = file2
+            
+        file3 = request.FILES.get('file3')
+        if file3:
+            if wasteRecord_Obj.landfill_disposal_certificate:
+                wasteRecord_Obj.landfill_disposal_certificate.delete()
+            wasteRecord_Obj.landfill_disposal_certificate = file3
+            
+        file4 = request.FILES.get('file4')
+        if file4:
+            if wasteRecord_Obj.lab_test_result:
+                wasteRecord_Obj.lab_test_result.delete()
+            wasteRecord_Obj.lab_test_result = file4
+            
+        file5 = request.FILES.get('file5')
+        if file5:
+            if wasteRecord_Obj.weight_bridge_certificate:
+                wasteRecord_Obj.weight_bridge_certificate.delete()
+            wasteRecord_Obj.weight_bridge_certificate = file5
         
         wasteRecord_Obj.save()
         messages.success(request, 'The Waste Record was changed successfully..')
