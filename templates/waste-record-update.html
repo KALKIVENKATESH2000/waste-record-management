@@ -204,20 +204,14 @@
                               </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-lg-6">
                           <div class="app-new-main-form">
-                                <div class="captute-waste-form">
-                                    <div class="select-month-content">
-                                        <h3>Land fill </h3>
-                                    </div>
-                                    <select class="selectpicker" id="land_fill" value="{{wasteRecord_Obj.land_fill}}" name="land_fill">
-                                        <option value="{{wasteRecord_Obj.land_fill}}">{{wasteRecord_Obj.land_fill}}</option>
-                                        {% comment %} <option value="W.D. Hall">W.D. Hall</option> {% endcomment %}
-                                    </select>
-                                </div>
-                            </div>
-                            
-                        </div>
+                               <div class="form-group">
+                                 <label for="rubble">Rubble</label>
+                                 <input type="number" class="form-control" name="rubble" id="rubble" value="{{wasteRecord_Obj.rubble}}" placeholder="Enter rubble" onchange="calculate()">
+                               </div>
+                           </div>
+                     </div>
                         <div class="col-md-6">
                             <div class="app-new-main-form">
                               <div class="form-group">
@@ -233,7 +227,6 @@
                                         <h3>Recyclable Item</h3>
                                     </div>
                                     <select class="selectpicker" name="recyclable_item" value="{{wasteRecord_Obj.recyclable_item}}" id="recyclable_item">
-                        
                                         {% if wasteRecord_Obj.recyclable_item %}
                                             <option value="{{wasteRecord_Obj.recyclable_item}}">{{wasteRecord_Obj.recyclable_item}}</option>
                                             {% endif %}
@@ -265,18 +258,23 @@
                             <div class="app-new-main-form">
                               <div class="form-group">
                                 <label for="total_waste">Total Waste in Tonnage</label>
-                                <input type="text" class="form-control" name="total_waste" id="total_waste" value="{{wasteRecord_Obj.total_waste}}" placeholder="Total waste in Tonnage ">
+                                <input type="text" class="form-control" name="total_waste" id="total_waste" value="{{wasteRecord_Obj.total_waste}}" placeholder="Total waste in Tonnage" readonly>
                               </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                           <div class="app-new-main-form">
-                                <div class="form-group">
-                                  <label for="rubble">Rubble</label>
-                                  <input type="number" class="form-control" name="rubble" id="rubble" value="{{wasteRecord_Obj.rubble}}" placeholder="Enter rubble" onchange="calculate()">
+                        <div class="col-md-6">
+                          <div class="app-new-main-form">
+                                <div class="captute-waste-form">
+                                    <div class="select-month-content">
+                                        <h3>Land fill </h3>
+                                    </div>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control" name="land_fill" id="land_fill" value="{{wasteRecord_Obj.land_fill}}">
+                                    </div>
                                 </div>
                             </div>
-                      </div>
+                            
+                        </div>
                         <div class="upload-card tabs">
                             <div class="upload-card-list tabs">
                                 <ul>
