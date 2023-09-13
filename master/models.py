@@ -146,8 +146,8 @@ class Contractor(models.Model):
     
     
 class Document(models.Model):
-    title           = models.CharField(max_length=50)
-    description     = models.CharField(max_length=20)
+    title           = models.CharField(max_length=100)
+    description     = models.CharField(max_length=100)
     file            = models.FileField(upload_to=complalience_certificates)
     
     def __str__(self):
