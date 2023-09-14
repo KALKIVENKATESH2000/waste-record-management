@@ -204,6 +204,7 @@
                             <tr>
                               <th>Sl.No</th>
                               <th>Name</th>
+                              <th>Username</th>
                               <th>Membership Number</th>
                               <th>Company</th>
                               <th>Status</th>
@@ -215,6 +216,7 @@
                             <tr>
                               <td>{{forloop.counter}}</td>
                               <td>{{user.first_name}} {{user.last_name}}</td>
+                              <td>{{user.username}}</td>
                               <td>{{user.member_id}}</td>
                               <td>{{user.company}}</td>
                               <td class=" {% if user.is_active == True %} active-in-active-box {% else %} active-in-active-box app-new-active-inctive-box {% endif %}">
@@ -288,7 +290,7 @@
                                     <div class="col-lg-6">
                                       <div class="modal-form-label app-new-password">
                                           <div class="form-group">
-                                            <input type="password" class="form-control" id="password" name="password"  value="{{ user.password }}" placeholder="Password">
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                           </div>
                                       </div>
                                     </div>

@@ -75,12 +75,12 @@ def AddUser(request):
             email=email,
         )
         
-        subject = 'Your Kaysim-WRS Account Information'
-        message = f'Username: {email}\n\nPassword: {password}'
-        from_email = 'no-reply@vibhotech.com'
-        recipient_list = [email]
+        # subject = 'Your Kaysim-WRS Account Information'
+        # message = f'Username: {email}\n\nPassword: {password}'
+        # from_email = 'no-reply@vibhotech.com'
+        # recipient_list = [email]
 
-        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        # send_mail(subject, message, from_email, recipient_list, fail_silently=False)
         
         messages.success(request, 'The user “{}” was added successfully.'.format(userObj))
         return redirect('/')
@@ -91,8 +91,12 @@ def update_user(request, user_id):
         user = CustomUser.objects.get(id=user_id)
         user.first_name = request.POST['first_name']
         user.last_name = request.POST['last_name']
-        user.password = make_password(request.POST['password'])
+        # user.password = make_password(request.POST['password'])
         user.is_active = request.POST['status']
+        
+        new_password = request.POST.get('password')
+        if new_password:
+            user.password = make_password(new_password)
         user.save()
         messages.info(request, 'The user “{}” was updated successfully.'.format(user))
         return redirect('/')
