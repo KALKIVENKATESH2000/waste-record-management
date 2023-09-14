@@ -123,21 +123,23 @@
                              </div>
                          </div>
                      </div>
+                     {% if user.is_superuser %}
                      <div class="col-md-6">
-                      <div class="app-new-main-form">
-                          <div class="captute-waste-form">
-                              <div class="select-month-content">
-                                  <h3>Select Company</h3>
+                          <div class="app-new-main-form">
+                              <div class="captute-waste-form">
+                                  <div class="select-month-content">
+                                      <h3>Select Company</h3>
+                                  </div>
+                                    <select class="selectpicker" id="company" name="company">
+                                      <option value="">Select a Company</option>
+                                      {% for comapany in companies  %}
+                                      <option value="{{comapany.id}}">{{comapany}}</option>                                    
+                                      {% endfor %}
+                                    </select>
                               </div>
-                                <select class="selectpicker" id="company" name="company">
-                                  <option value="">Select a Company</option>
-                                  {% for comapany in companies  %}
-                                  <option value="{{comapany.id}}">{{comapany}}</option>                                    
-                                  {% endfor %}
-                                </select>
                           </div>
                       </div>
-                  </div>
+                    {% endif %}
                      <div class="col-md-6">
                          <div class="app-new-main-form">
                              <div class="captute-waste-form app-new-captute-waste-form-main">

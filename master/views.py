@@ -145,9 +145,9 @@ def CompanyDetails(request):
 
 def CaptureWasteRecord(request):
     branches = []
+    companies_list = Company.objects.all()
     if request.user.is_superuser:
         branches_list = list(set(Company.objects.values_list('branches', flat=True)))
-        companies_list = Company.objects.all()
     else:
         company = request.user.company
         branches_list = Company.objects.filter(name=company).values_list('branches', flat=True)
@@ -160,7 +160,6 @@ def CaptureWasteRecord(request):
         month = request.POST.get('month')
         branch = request.POST.get('branch')
         company = request.POST.get('company')
-        print(company)
         entry_date = request.POST.get('entry_date')
         manifest_no = request.POST.get('manifest_no')
         disposal_slip_no = request.POST.get('disposal_slip_no')
