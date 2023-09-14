@@ -1399,3 +1399,13 @@ body{
   .app-new-select-month{
     width: 320px !important;
   }
+  .app-new-status-form .form-group{
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .app-new-status-form .bootstrap-select>.dropdown-toggle{
+    width: 455px !important;
+  }
+  .app-new-password .form-group input{
+    width: 455px !important;
+  }

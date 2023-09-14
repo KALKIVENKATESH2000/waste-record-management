@@ -154,7 +154,7 @@ SITE_ID = 2
 # SMTP Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'kalki@presentience.in'
-EMAIL_HOST_PASSWORD = 'Kalki@007'
+EMAIL_HOST_USER = 'chaitanya@vibhotech.com'
+EMAIL_HOST_PASSWORD = '6bUx8HkZdv19OBVA'

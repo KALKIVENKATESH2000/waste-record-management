@@ -16,6 +16,10 @@ import csv
 import xlwt
 from django.db.models import Sum
 from django.db.models import Count
+from django.core.mail import send_mail
+from django.contrib.auth.hashers import make_password
+
+
 
 
 
@@ -70,6 +74,14 @@ def AddUser(request):
             password=password,
             email=email,
         )
+        
+        subject = 'Your Kaysim-WRS Account Information'
+        message = f'Username: {email}\n\nPassword: {password}'
+        from_email = 'no-reply@vibhotech.com'
+        recipient_list = [email]
+
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        
         messages.success(request, 'The user “{}” was added successfully.'.format(userObj))
         return redirect('/')
     return render(request, 'user-management.html')
@@ -79,6 +91,7 @@ def update_user(request, user_id):
         user = CustomUser.objects.get(id=user_id)
         user.first_name = request.POST['first_name']
         user.last_name = request.POST['last_name']
+        user.password = make_password(request.POST['password'])
         user.is_active = request.POST['status']
         user.save()
         messages.info(request, 'The user “{}” was updated successfully.'.format(user))
@@ -130,6 +143,7 @@ def CaptureWasteRecord(request):
     branches = []
     if request.user.is_superuser:
         branches_list = list(set(Company.objects.values_list('branches', flat=True)))
+        companies_list = Company.objects.all()
     else:
         company = request.user.company
         branches_list = Company.objects.filter(name=company).values_list('branches', flat=True)
@@ -141,6 +155,8 @@ def CaptureWasteRecord(request):
     if request.method =='POST':
         month = request.POST.get('month')
         branch = request.POST.get('branch')
+        company = request.POST.get('company')
+        print(company)
         entry_date = request.POST.get('entry_date')
         manifest_no = request.POST.get('manifest_no')
         disposal_slip_no = request.POST.get('disposal_slip_no')
@@ -164,6 +180,7 @@ def CaptureWasteRecord(request):
             user_id=request.user.id,
             month=month,
             branch=branch,
+            company_id=company,
             entry_date=entry_date, 
             manifest_no=manifest_no, 
             disposal_slip_no=disposal_slip_no,
@@ -185,7 +202,7 @@ def CaptureWasteRecord(request):
         )
         messages.success(request, 'The capture waste record was added successfully.')
         return redirect('/waste_records')
-    return render(request, 'capture-waste-record.html', {'choices':RECYCLEBLE_ITEM_CHOICES, 'branches':branches})
+    return render(request, 'capture-waste-record.html', {'choices':RECYCLEBLE_ITEM_CHOICES, 'branches':branches, 'companies':companies_list})
 
 def WasteRecordList(request):
     if request.user.is_superuser:
@@ -412,9 +429,8 @@ class GeneratePdf(View):
             if request.user.is_superuser:
                 companyId = request.session.get('companyId')
                 company = Company.objects.get(id=companyId)
-                user  = CustomUser.objects.get(company=company)
-                print('user',user)
-                response  = WasteRecord.objects.filter(user=user.id,entry_date__gte=start_date,entry_date__lte=end_date)
+                # user  = CustomUser.objects.get(company=company)
+                response  = WasteRecord.objects.filter(company=company,entry_date__gte=start_date,entry_date__lte=end_date)
             else:
                 company = Company.objects.get(name=request.user.company)
                 response  = WasteRecord.objects.filter(user=request.user,entry_date__gte=start_date,entry_date__lte=end_date)

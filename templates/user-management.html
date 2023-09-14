@@ -255,6 +255,22 @@
                               <div class="modal-body">
                                 <div class="modal-form">
                                   <div class="row">
+                                    <div class="col-lg-12">
+                                      <div class="modal-form-label app-new-date-modal-form-label app-new-status-form" >
+                                        <div class="form-group app-new-date-picker-form">
+                                            <label for="status">Status</label>
+                                              <select class="selectpicker app-new-date-picker-main" name="status" value="{{ user.is_active }}">
+                                                {% if user.is_active == True %}
+                                                <option value="True">Active</option>
+                                                <option value="False">In-Active</option>
+                                                {% else %}
+                                                <option value="False">In-Active</option>
+                                                <option value="True">Active</option>
+                                                {% endif %}
+                                              </select>
+                                        </div>
+                                    </div>
+                                    </div>
                                     <div class="col-lg-6">
                                       <div class="modal-form-label">
                                           <div class="form-group">
@@ -269,21 +285,15 @@
                                           </div>
                                       </div>
                                     </div>
-                                  </div>
-                                      <div class="modal-form-label app-new-date-modal-form-label">
-                                          <div class="form-group app-new-date-picker-form">
-                                              <label for="status">Status</label>
-                                                <select class="selectpicker app-new-date-picker-main" name="status" value="{{ user.is_active }}">
-                                                  {% if user.is_active == True %}
-                                                  <option value="True">Active</option>
-                                                  <option value="False">In-Active</option>
-                                                  {% else %}
-                                                  <option value="False">In-Active</option>
-                                                  <option value="True">Active</option>
-                                                  {% endif %}
-                                                </select>
+                                    <div class="col-lg-6">
+                                      <div class="modal-form-label app-new-password">
+                                          <div class="form-group">
+                                            <input type="password" class="form-control" id="password" name="password"  value="{{ user.password }}" placeholder="Password">
                                           </div>
                                       </div>
+                                    </div>
+                                  </div>
+                                      
                                   <div class="modal-submit-button">
                                     <button type="submit" form="editForm{{ user.id }}" class="modal-submit-btn">Submit</button>
                                   </div>

@@ -107,6 +107,7 @@ from django.contrib.auth.models import User
    
 class WasteRecord(models.Model):
     user                            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
+    company                         = models.ForeignKey(Company,on_delete=models.CASCADE,null=True)
     branch                          = models.CharField(max_length=50, default='')
     month                           = models.CharField(max_length=20, choices=MONTH_CHOICES)
     entry_date                      = models.DateTimeField(max_length=20)
