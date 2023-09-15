@@ -114,24 +114,27 @@
                                     <div class="select-month-content">
                                         <h3>Select Branch</h3>
                                     </div>
-                                      <select class="selectpicker" id="month" name="month" value="{{wasteRecord_Obj.month}}">
-                                        <option value="{{wasteRecord_Obj.month}}">{{wasteRecord_Obj.month}}</option>
-                                        <option value="January">January</option>                                    
-                                        <option value="February">February</option>                                    
-                                        <option value="March">March</option>                                   
-                                        <option value="April">April</option>                                   
-                                        <option value="May">May</option>
-                                        <option value="June">June</option>                                   
-                                        <option value="July">July</option>                                   
-                                        <option value="August">August</option>                                   
-                                        <option value="September">September</option>
-                                        <option value="October">October</option>
-                                        <option value="November">November</option>                                   
-                                        <option value="December">December</option>                                    
+                                      <select class="selectpicker" id="month" name="month" value="{{wasteRecord_Obj.branch}}">
+                                        <option value="{{wasteRecord_Obj.branch}}">{{wasteRecord_Obj.branch}}</option>                              
                                       </select>
-                                </div>
+                                    </div>
                             </div>
                         </div>
+                        {% if user.is_superuser %}
+                          <div class="col-md-6">
+                                <div class="app-new-main-form">
+                                    <div class="captute-waste-form">
+                                        <div class="select-month-content">
+                                            <h3>Select Company</h3>
+                                        </div>
+                                          <select class="selectpicker" id="company" name="company" value="{{wasteRecord_Obj.company}}">
+                                            <!-- <option value="">Select a Company</option> -->
+                                            <option value="{{wasteRecord_Obj.company}}">{{wasteRecord_Obj.company}}</option>                                    
+                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                          {% endif %}
                         <div class="col-md-6">
                             <div class="app-new-main-form">
                                 <div class="captute-waste-form app-new-captute-waste-form-main">
@@ -175,8 +178,8 @@
                         <div class="col-md-6">
                           <div class="app-new-main-form">
                                 <div class="form-group">
-                                  <label for="manifest_no">Manifest Number</label>
-                                  <input type="text" class="form-control" name="manifest_no" id="manifest_no" value="{{wasteRecord_Obj.manifest_no}}" placeholder="Enter manifest number">
+                                  <label for="manifest_no">Ticket Number</label>
+                                  <input type="text" class="form-control" name="manifest_no" id="manifest_no" value="{{wasteRecord_Obj.manifest_no}}" placeholder="Enter ticket number">
                                 </div>
                             </div>
                         </div>
