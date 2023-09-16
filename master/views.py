@@ -337,19 +337,19 @@ def DelWasteRecord(request, id):
     return redirect('/waste_records/list')
 
 def ComplianceCertificate(request):
-    # documents = Document.objects.all()
+    documents = Document.objects.all()
     company_list = Company.objects.all()
-    if request.user.is_superuser:    
-        documents = {}
-        for company in company_list:
-            documentss = Document.objects.filter(company=company)
-            documents[company] = documentss
+    # if request.user.is_superuser:    
+    #     documents = {}
+    #     for company in company_list:
+    #         documentss = Document.objects.filter(company=company)
+    #         documents[company] = documentss
 
-    # context = {
-    #     'documents_by_company': documents_by_company,
-    # }
-    else :
-        documents = Document.objects.all()
+    # # context = {
+    # #     'documents_by_company': documents_by_company,
+    # # }
+    # else :
+    #     documents = Document.objects.all()
     
     return render(request, 'compliance-certificate-download.html', {'documents':documents, 'company_list':company_list})
 
