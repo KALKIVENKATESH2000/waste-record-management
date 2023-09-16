@@ -10,6 +10,8 @@ urlpatterns = [
     path('update_user/<int:user_id>/', update_user, name='update_user'),
 
     path('company_details/', CompanyDetails, name='company_details'),
+    path('company_details/list/', CompanyList, name='company_list'),
+    path('company_details/<int:id>', CompanyUpdate ,name='company_update'),
     path('waste_records/', CaptureWasteRecord, name='waste_records'),
     path('waste_record/<int:id>', WasteRecordUpdate ,name='waste_record_update'),
     path('waste_records/list/', WasteRecordList, name='waste_records_list'),

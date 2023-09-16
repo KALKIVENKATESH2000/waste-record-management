@@ -141,7 +141,48 @@ def CompanyDetails(request):
             messages.success(request, 'The branches “{}” was updated.'.format(company_details.branches))
             return redirect('/company_details/')
         return render(request, 'company-details.html', {'company':company_details})
+
+
+def CompanyList(request):
+    if request.user.is_superuser:
+        company_list = Company.objects.all()
+    else:
+        company_list = Company.objects.filter(user=request.user.id)
         
+    search_query = request.GET.get('search')
+    if search_query:
+        company_list = company_list.filter(name__icontains=search_query,)
+    paginator = Paginator(company_list, 10)
+    page = request.GET.get('page')
+    
+    try:
+        company_list = paginator.get_page(page)
+    except PageNotAnInteger:
+        company_list = paginator.get_page(1)
+    except EmptyPage:
+        company_list = paginator.get_page(paginator.num_pages)
+        
+    context = {
+        "company_Obj":company_list, 
+        'search_query': search_query,
+    }
+    return render(request, 'company_list.html', context)
+
+
+def CompanyUpdate(request, id):
+    company_Obj = Company.objects.get(id=id)
+
+    if request.method =='POST':
+        company_Obj.branches = request.POST.get('branches' '')
+        company_Obj.save()
+        
+        messages.success(request, 'The company branches “{}” was updated.'.format(company_Obj.branches))
+        return redirect('/company_details/list')
+    else:
+        context = {'company_Obj': company_Obj}
+    return render(request, 'company_details_update.html', context)
+
+
 
 def CaptureWasteRecord(request):
     branches = []
@@ -296,8 +337,21 @@ def DelWasteRecord(request, id):
     return redirect('/waste_records/list')
 
 def ComplianceCertificate(request):
-    documents = Document.objects.all()
-    return render(request, 'compliance-certificate-download.html', {'documents':documents})
+    # documents = Document.objects.all()
+    company_list = Company.objects.all()
+    if request.user.is_superuser:    
+        documents = {}
+        for company in company_list:
+            documentss = Document.objects.filter(company=company)
+            documents[company] = documentss
+
+    # context = {
+    #     'documents_by_company': documents_by_company,
+    # }
+    else :
+        documents = Document.objects.all()
+    
+    return render(request, 'compliance-certificate-download.html', {'documents':documents, 'company_list':company_list})
 
 
 def MonthlyWasteReport(request):
@@ -469,11 +523,13 @@ class GeneratePdf(View):
 
 def AddDocuments(request):
     if request.method =='POST':
+        company = request.POST.get('company')
         title = request.POST.get('title')
         description = request.POST.get('description')
         file = request.FILES.get('document')
         print(file)
         docObj = Document.objects.create(
+            company_id=company,
             title=title,
             description=description, 
             file=file,

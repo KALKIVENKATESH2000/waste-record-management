@@ -147,6 +147,7 @@ class Contractor(models.Model):
     
     
 class Document(models.Model):
+    company         = models.ForeignKey(Company,on_delete=models.CASCADE,null=True)
     title           = models.CharField(max_length=100)
     description     = models.CharField(max_length=100)
     file            = models.FileField(upload_to=complalience_certificates)

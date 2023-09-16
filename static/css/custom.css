@@ -1409,3 +1409,7 @@ body{
   .app-new-password .form-group input{
     width: 455px !important;
   }
+  .name-form h2{
+    font-size: 25px;
+    margin: 0px 0px 20px 10px;
+  }

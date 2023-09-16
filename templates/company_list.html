@@ -45,10 +45,10 @@
                   {% endif %}
                  <div class="user-nav-bar">
                      <nav class="navbar navbar-expand-lg">
-                         <a class="navbar-brand" href="#">Waste Record List</a>
+                         <a class="navbar-brand" href="#">Company List</a>
                          
                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                           <form class="form-inline app-new-form my-2 my-lg-0" method="GET" action="{% url 'waste_records_list' %}">
+                           <form class="form-inline app-new-form my-2 my-lg-0" method="GET" action="{% url 'company_list' %}">
                              <input class="form-control mr-sm-2" type="text" name="search" value="" placeholder="Search...">
                              <div class="search-image">
                               <button type="submit">
@@ -98,29 +98,31 @@
                             <thead>
                               <tr>
                                 <th>Sl.No</th>
-                                <th>Entry Date</th>
-                                <th>Ticket No</th>
-                                <th>Disposal Slip No</th>
-                                <th>Receiving Site</th>
+                                <th>Company Name</th>
+                                <th>Contact Person</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Branches</th>
                                 <th>Manage</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {% for wR in wasteRecord_Obj %}
+                              {% for company in company_Obj %}
                               <tr>
                                 <td>{{forloop.counter}}</td>
-                                <td>{{wR.entry_date | date:"M d, Y"}}</td>
-                                <td>{{wR.manifest_no}}</td>
-                                <td>{{wR.disposal_slip_no}}</td>
-                                <td>{{wR.land_fill}}</td>
+                                <td>{{company.name}}</td>
+                                <td>{{company.contact_number}}</td>
+                                <td>{{company.email}}</td>
+                                <td>{{company.address}}</td>
+                                <td>{{company.branches}}</td>
                                 <td>
                                     <div class="edit-del">
                                       <button>
-                                        <a href="{% url 'waste_record_update' wR.id %}">
+                                        <a href="{% url 'company_update' company.id %}">
                                             <img src="{% static 'images/user-management/edit.svg'%}" alt="">
                                         </a>
                                       </button>
-                                      <button type="button" onclick="confirmDelete('{{ wR.id }}')">
+                                      <button type="button" >
                                         <a href="">
                                             <img src="{% static 'images/waste-record/delete.png'%}" alt="">
                                         </a>
@@ -135,18 +137,18 @@
                                 <div class="app-new-pagination">
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination">
-                                      {% if wasteRecord_Obj.has_previous %}
-                                        <li class="page-item"><a class="page-link app-new-page-link" href="?page={{ wasteRecord_Obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}"">Previous</a></li>
+                                      {% if company_Obj.has_previous %}
+                                        <li class="page-item"><a class="page-link app-new-page-link" href="?page={{ company_Obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}"">Previous</a></li>
                                       {% endif %}
-                                      {% for page_num in wasteRecord_Obj.paginator.page_range %}
-                                          {% if wasteRecord_Obj.number == page_num %}
+                                      {% for page_num in company_Obj.paginator.page_range %}
+                                          {% if company_Obj.number == page_num %}
                                               <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
                                           {% else %}
                                               <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if search_query %}&search={{ search_query }}{% endif %}">{{ page_num }}</a></li>
                                           {% endif %}
                                       {% endfor %}
-                                      {% if wasteRecord_Obj.has_next %}
-                                        <li class="page-item"><a class="page-link app-new-page-link"href="?page={{ wasteRecord_Obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">Next</a></li>
+                                      {% if company_Obj.has_next %}
+                                        <li class="page-item"><a class="page-link app-new-page-link"href="?page={{ company_Obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">Next</a></li>
                                       {% endif %}
                                     </ul>
                                   </nav>
