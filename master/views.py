@@ -339,19 +339,25 @@ def DelWasteRecord(request, id):
 def ComplianceCertificate(request):
     documents = Document.objects.all()
     company_list = Company.objects.all()
-    # if request.user.is_superuser:    
-    #     documents = {}
-    #     for company in company_list:
-    #         documentss = Document.objects.filter(company=company)
-    #         documents[company] = documentss
-
-    # # context = {
-    # #     'documents_by_company': documents_by_company,
-    # # }
-    # else :
-    #     documents = Document.objects.all()
-    
     return render(request, 'compliance-certificate-download.html', {'documents':documents, 'company_list':company_list})
+
+# def ComplianceCertificate(request):
+#     # documents = Document.objects.all()
+#     company_list = Company.objects.all()
+#     if request.user.is_superuser:    
+#         documents = {}
+#         company_list = Company.objects.all()
+#         for company in company_list:
+#             documents = Document.objects.filter(company=company)
+#             documents[company] = documents
+
+#     # context = {
+#     #     'documents_by_company': documents_by_company,
+#     # }
+#     else :
+#         documents = Document.objects.all()
+    
+#     return render(request, 'compliance-certificate-download.html', {'documents':documents, 'company_list':company_list})
 
 
 def MonthlyWasteReport(request):

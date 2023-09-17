@@ -109,9 +109,9 @@
                                         <div class="modal-form-label">
                                             <div class="form-group">
                                               <div class="captute-waste-form">
-                                                <select class="selectpicker" id="company" name="company">
-                                                  <option value="">Select a Company</option>
-                                                  {% for company in company_list  %}
+                                                <select class="selectpicker" id="company" name="company" required>
+                                                  <option value="">Select a company</option>
+                                                  {% for company in company_list %}
                                                   <option value="{{company.id}}">{{company}}</option>                                 
                                                   {% endfor %}
                                                 </select>
@@ -209,10 +209,13 @@
                        {% endif %}
                         </div>
                        </div>
-
+                  {% for company, documentss in documents.items %}
                    <div class="compliance-certificate">
+                      <div class="name-form">
+                        <h2>{{ company.name }}</h2>
+                      </div>
                     <div class="row">
-                      {% for document in documents %}
+                      {% for document in documentss %}
                       <div class="col-md-5 mb-4">
                         <div class="permit-oraganic-box">
                           <div class="permit-oraganic-box-content">
@@ -330,6 +333,7 @@
                       </div> -->
                     </div>
                    </div>
+                   {% endfor %}
             </div>
         </div>      
         </div>
