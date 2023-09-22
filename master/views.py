@@ -18,6 +18,7 @@ from django.db.models import Sum
 from django.db.models import Count
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
+from django.db.models import Q
 
 
 
@@ -337,9 +338,16 @@ def DelWasteRecord(request, id):
     return redirect('/waste_records/list')
 
 def ComplianceCertificate(request):
-    documents = Document.objects.all()
-    company_list = Company.objects.all()
-    return render(request, 'compliance-certificate-download.html', {'documents':documents, 'company_list':company_list})
+    if request.user.is_superuser:
+        company_list = Company.objects.all()
+        documents = Document.objects.all()
+        return render(request, 'compliance-certificate-download.html', {'documents':documents, 'company_list':company_list})
+    else: 
+        company = request.user.company
+        print(company)
+        documents = Document.objects.filter(Q(company=company) | Q(company=None))
+        
+    return render(request, 'compliance-certificate-download.html', {'documents':documents})
 
 # def ComplianceCertificate(request):
 #     # documents = Document.objects.all()
