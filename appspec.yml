@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/waste-record-management
+    destination: /var/www/html/waste-record-management
 file_exists_behavior: OVERWRITE
 hooks:
   AfterInstall:
