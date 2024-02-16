@@ -1,2 +1,2 @@
 # waste-record-management
-test test
+new
