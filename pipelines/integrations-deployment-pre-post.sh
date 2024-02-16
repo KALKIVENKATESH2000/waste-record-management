@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 set -e
-STAGE_SRC_DIR="/home/ubuntu/waste-record-management"
+STAGE_SRC_DIR="/var/www/html/waste-record-management"
 
 m_stage_deployment() {
     ##### changing the owner for the files
