@@ -103,7 +103,7 @@
                 <div class="waste-record">
                     {% comment %} <p>Lorem Epson is a dummy word to fill the sentences Lorem Epson is a dummy word to fill the sentences</p> {% endcomment %}
                 </div>
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
                   {% csrf_token %}
                 <div class="company-details app-new-company-details">
                   <div class="app-comapany-form"> 
@@ -144,7 +144,7 @@
                          <div class="app-new-main-form">
                              <div class="captute-waste-form app-new-captute-waste-form-main">
                                <label for="entry_date" style="margin-right:15px;">Select Entry Date</label>
-                               <input type="text" id="datepicker" name="entry_date" placeholder="DD/MM/YYYY">
+                               <input type="text" id="datepicker" name="entry_date" placeholder="YYYY/MM/DD">
                              </div>
                          </div>
                      </div>
@@ -450,6 +450,14 @@ function getFileData(id){
     
     // Display the result
     document.getElementById('total_waste').value = total_waste;
+  }
+  function validateForm()
+  {
+    var entry_date=$('#datepicker').val();
+    if(entry_date=="" || entry_date==undefined){
+      alert("Please select entry date");
+      return false;
+    }
   }
 </script>
 </html>
