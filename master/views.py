@@ -19,6 +19,7 @@ from django.db.models import Count
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
+import pandas as pd
 
 
 
@@ -35,22 +36,28 @@ def UserManagement(request):
         search_query = request.GET.get('search')
         if search_query:
             user_list = user_list.filter(
-                first_name__icontains=search_query,
+                Q(first_name__icontains=search_query) |
+                Q(last_name__icontains=search_query) |
+                Q(username__icontains=search_query) |
+                Q(email__icontains=search_query) |
+                Q(member_id__icontains=search_query)
             )
+
         paginator = Paginator(user_list, 10)
         page = request.GET.get('page')
-        
+
         try:
             user_list = paginator.get_page(page)
         except PageNotAnInteger:
             user_list = paginator.get_page(1)
         except EmptyPage:
             user_list = paginator.get_page(paginator.num_pages)
+
         context = {
-            "user_list" : user_list,
-            "user_count" : user_count,
+            "user_list": user_list,
+            "user_count": user_count,
             "search_query": search_query,
-            'companies':companies,
+            "companies": companies,
         }
         return render(request, 'user-management.html', context)
     else:
@@ -143,6 +150,47 @@ def CompanyDetails(request):
             return redirect('/company_details/')
         return render(request, 'company-details.html', {'company':company_details})
 
+def import_company_excel(request):
+    if request.method == "POST":
+        if 'excel_file' in request.FILES:
+            excel_file = request.FILES['excel_file']
+            try:
+                df = pd.read_excel(excel_file)
+                df.fillna('', inplace=True)
+                required_fields = [
+                    'Company Name', 'Company Contact Person', 'Company Address',
+                    'Email', 'Contact Number', 'Company Reg No', 'Branches',
+                    'Company VAT No.'
+                ]
+                for index, row in df.iterrows():
+                    missing_fields = [field for field in required_fields if not row[field]]
+                    if missing_fields:
+                        missing_fields_str = ', '.join(missing_fields)
+                        messages.warning(request, f"Error processing row {index + 1}: Missing required field(s): {missing_fields_str}.")
+                        return redirect('/company_details/')
+
+                    try:
+                        Company.objects.create(
+                            name=row['Company Name'],
+                            contact_number=row['Company Contact Person'],
+                            address=row['Company Address'],
+                            email=row['Email'],
+                            person_number=row['Contact Number'],
+                            register_no=row['Company Reg No'],
+                            branches=row['Branches'],
+                            vat_no=row['Company VAT No.'],
+                            company_logo=row.get('Company Logo', '')
+                        )
+                    except Exception as e:
+                        messages.warning(request, f"Error processing row {index + 1}: {e}")
+                        return redirect('/company_details/')
+                
+                messages.success(request, 'The companies were created successfully.')
+            except Exception as e:
+                messages.warning(request, f"Error: {e}")
+        else:
+            messages.warning(request, "No file was uploaded. Please upload a valid Excel file.")
+        return redirect('/company_details/')
 
 def CompanyList(request):
     if request.user.is_superuser:
@@ -152,7 +200,17 @@ def CompanyList(request):
         
     search_query = request.GET.get('search')
     if search_query:
-        company_list = company_list.filter(name__icontains=search_query,)
+        company_list = company_list.filter(
+            Q(name__icontains=search_query) |
+            Q(contact_number__icontains=search_query) |
+            Q(address__icontains=search_query) |
+            Q(email__icontains=search_query) |
+            Q(person_number__icontains=search_query) |
+            Q(register_no__icontains=search_query) |
+            Q(branches__icontains=search_query) |
+            Q(vat_no__icontains=search_query)
+        )
+        
     paginator = Paginator(company_list, 10)
     page = request.GET.get('page')
     
@@ -164,7 +222,7 @@ def CompanyList(request):
         company_list = paginator.get_page(paginator.num_pages)
         
     context = {
-        "company_Obj":company_list, 
+        "company_Obj": company_list, 
         'search_query': search_query,
     }
     return render(request, 'company_list.html', context)
@@ -249,6 +307,65 @@ def CaptureWasteRecord(request):
         return redirect('/waste_records')
     return render(request, 'capture-waste-record.html', {'choices':RECYCLEBLE_ITEM_CHOICES, 'branches':branches, 'companies':companies_list})
 
+def import_waste_records_excel(request):
+    if request.method == "POST":
+        if 'excel_file' in request.FILES:
+            excel_file = request.FILES['excel_file']
+            success = True
+            try:
+                df = pd.read_excel(excel_file)
+                df = df.fillna('')
+                def format_date(value):
+                    try:
+                        return pd.to_datetime(value).strftime('%Y-%m-%d')
+                    except ValueError:
+                        return None
+                df['Entry Date'] = df['Entry Date'].apply(format_date)
+
+                def to_float(value):
+                    try:
+                        return float(value)
+                    except ValueError:
+                        return None
+                
+                for index, row in df.iterrows():
+                    try:
+                        WasteRecord.objects.create(
+                            user_id=request.user.id,
+                            month=row['Month'],
+                            branch=row['Branch'],
+                            company_id=row['Company'],
+                            entry_date=row['Entry Date'], 
+                            manifest_no=row['Manifest No'], 
+                            disposal_slip_no=row['Disposal Slip No'],
+                            vehicle_registration=row['Vehicle Registration'],
+                            bin_size=to_float(row['Bin Size']),
+                            bin_GW=to_float(row['Bin GW']),
+                            land_fill=row['Land Fill'],
+                            recyclable_item=row['Recyclable Item'],
+                            solid_waste=to_float(row['Solid Waste']),
+                            liquid_waste=to_float(row['Liquid Waste']),
+                            hazardous_waste=to_float(row['Hazardous Waste']),
+                            rubble=to_float(row['Rubble']),
+                            total_waste=to_float(row['Total Waste']),
+                            # collection_note=row['Collection Note'],
+                            # service_provider_certificate=row['Service Provider Certificate'],
+                            # landfill_disposal_certificate=row['Landfill Disposal Certificate'],
+                            # lab_test_result=row['Lab Test Result'],
+                            # weight_bridge_certificate=row['Weight Bridge Certificate'],
+                        )
+                    except Exception as e:
+                        messages.warning(request, f"Error: {str(e)} in row {index}")
+                        success = False
+                
+                if success:
+                    messages.success(request, 'The waste records were created successfully.')
+            except Exception as e:
+                messages.warning(request, f"Error: Invalid file type. Only Excel files are allowed.")
+        else:
+            messages.warning(request, "No file was uploaded. Please upload a valid Excel file.")
+        return redirect('/waste_records/')
+    
 def WasteRecordList(request):
     if request.user.is_superuser:
         wasteRecord_list = WasteRecord.objects.all()
@@ -257,7 +374,29 @@ def WasteRecordList(request):
         
     search_query = request.GET.get('search')
     if search_query:
-        wasteRecord_list = wasteRecord_list.filter(disposal_slip_no__icontains=search_query,)
+        wasteRecord_list = wasteRecord_list.filter(
+            Q(disposal_slip_no__icontains=search_query) |
+            Q(month__icontains=search_query) |
+            Q(entry_date__icontains=search_query) |
+            Q(manifest_no__icontains=search_query) |
+            Q(vehicle_registration__icontains=search_query) |
+            Q(bin_size__icontains=search_query) |
+            Q(bin_GW__icontains=search_query) |
+            Q(land_fill__icontains=search_query) |
+            Q(recyclable_item__icontains=search_query) |
+            Q(solid_waste__icontains=search_query) |
+            Q(liquid_waste__icontains=search_query) |
+            Q(hazardous_waste__icontains=search_query) |
+            Q(rubble__icontains=search_query) |
+            Q(total_waste__icontains=search_query) |
+            Q(collection_note__icontains=search_query) |
+            Q(service_provider_certificate__icontains=search_query) |
+            Q(landfill_disposal_certificate__icontains=search_query) |
+            Q(lab_test_result__icontains=search_query) |
+            Q(weight_bridge_certificate__icontains=search_query) |
+            Q(branch__icontains=search_query)
+        )
+    
     paginator = Paginator(wasteRecord_list, 10)
     page = request.GET.get('page')
     
@@ -269,10 +408,11 @@ def WasteRecordList(request):
         wasteRecord_list = paginator.get_page(paginator.num_pages)
         
     context = {
-        "wasteRecord_Obj":wasteRecord_list, 
+        "wasteRecord_Obj": wasteRecord_list, 
         'search_query': search_query,
     }
     return render(request, 'waste-record-list.html', context)
+
     
 def WasteRecordUpdate(request, id):
     wasteRecord_Obj = WasteRecord.objects.get(id=id)
@@ -337,17 +477,43 @@ def DelWasteRecord(request, id):
     messages.warning(request, 'The Waste Record “{}” was deleted successfully.'.format(wasteRecord_obj))
     return redirect('/waste_records/list')
 
+
 def ComplianceCertificate(request):
     if request.user.is_superuser:
         company_list = Company.objects.all()
         documents = Document.objects.all()
-        return render(request, 'compliance-certificate-download.html', {'documents':documents, 'company_list':company_list})
-    else: 
+       
+        search_query = request.GET.get('search')
+        if search_query:
+            documents = documents.filter(
+                Q(title__icontains=search_query) |
+                Q(description__icontains=search_query) |
+                Q(file__icontains=search_query)
+            )
+        
+        return render(request, 'compliance-certificate-download.html', {
+            'documents': documents,
+            'company_list': company_list,
+            'search_query': search_query,
+        })
+    else:
         company = request.user.company
         print(company)
         documents = Document.objects.filter(Q(company=company) | Q(company=None))
-        
-    return render(request, 'compliance-certificate-download.html', {'documents':documents})
+
+        search_query = request.GET.get('search')
+        if search_query:
+            documents = documents.filter(
+                Q(title__icontains=search_query) |
+                Q(description__icontains=search_query) |
+                Q(file__icontains=search_query)
+            )
+
+        return render(request, 'compliance-certificate-download.html', {
+            'documents': documents,
+            'search_query': search_query,
+        })
+
 
 # def ComplianceCertificate(request):
 #     # documents = Document.objects.all()
@@ -430,40 +596,108 @@ def ContractorDetails(request):
     context = {'sites':sites}
     return render(request, 'contractor-details.html', context)
 
+def import_contractor_details(request):
+    if request.method == "POST":
+        if 'excel_file' in request.FILES:
+            excel_file = request.FILES['excel_file']
+            success = True
+            try:
+                df = pd.read_excel(excel_file)
+                df = df.fillna('')
+                
+                def format_date(value):
+                    try:
+                        return pd.to_datetime(value, errors='coerce').strftime('%Y-%m-%d')
+                    except Exception:
+                        return None
+                
+                df['Employment Start'] = df['Employment Start'].apply(format_date)
+                df['Employment End'] = df['Employment End'].apply(format_date)
+
+                for index, row in df.iterrows():
+                    try:
+                        employment_start = row['Employment Start']
+                        employment_end = row['Employment End']
+
+                        if not employment_start or not employment_end:
+                            raise ValueError(f"Invalid date format in row {index}: Employment Start or Employment End")
+
+                        Contractor.objects.create(
+                            site_name=row['Site Name'],
+                            id_no=row['ID No'],
+                            first_name=row['First Name'],
+                            last_name=row['Last Name'],
+                            contact_number=row['Contact Number'],
+                            gender=row['Gender'],
+                            employment_start=employment_start,
+                            employment_end=employment_end,
+                            race=row['Race'],
+                        )
+                    except Exception as e:
+                        messages.warning(request, f"Error: {str(e)} in row {index}")
+                        success = False
+                
+                if success:
+                    messages.success(request, 'The contractor details were created successfully.')
+            except Exception as e:
+                messages.warning(request, f"Error: Invalid file type. Only Excel files are allowed.")
+        else:
+            messages.warning(request, "No file was uploaded. Please upload a valid Excel file.")
+        return redirect('/contrator/details')
+    
 def ContractorList(request):
     sites = []
     company = request.user.company
-    print('%%%%%%%%%%%%%%5',company)
+    print('%%%%%%%%%%%%%%5', company)
     site_list = Company.objects.filter(name=company).values_list('branches', flat=True)
-    # site_list = list(set(Company.objects.values_list('branches', flat=True)))
-    print(site_list)
     joined_string = ','.join(site_list)
     result = [value.strip() for value in joined_string.split(',')]
     unique_values = list(set(result))
     for site in unique_values:
         sites.append(site)
-    contractor_list = Contractor.objects.all().values()
+
+    # Get the list of contractors
+    contractor_list = Contractor.objects.all()
+
+    # Total count of contractors
     count = contractor_list.count()
+
+    # Get search query from the request
     search_query = request.GET.get('search')
     if search_query:
         contractor_list = contractor_list.filter(
-            site_name__icontains=search_query,
+            Q(site_name__icontains=search_query) |
+            Q(id_no__icontains=search_query) |
+            Q(first_name__icontains=search_query) |
+            Q(last_name__icontains=search_query) |
+            Q(contact_number__icontains=search_query) |
+            Q(gender__icontains=search_query) |
+            Q(race__icontains=search_query) |
+            Q(employment_start__icontains=search_query) |
+            Q(employment_end__icontains=search_query)
         )
+
+    # Pagination logic
     paginator = Paginator(contractor_list, 10)
     page = request.GET.get('page')
-    
+
     try:
         contractor_list = paginator.get_page(page)
     except PageNotAnInteger:
         contractor_list = paginator.get_page(1)
     except EmptyPage:
         contractor_list = paginator.get_page(paginator.num_pages)
-    context = {"contractor_Obj":contractor_list, 
-               "search_query":search_query,
-               "count": count,
-               "sites": sites,
+
+    # Pass necessary data to the template
+    context = {
+        "contractor_Obj": contractor_list,
+        "search_query": search_query,
+        "count": count,
+        "sites": sites,
     }
+
     return render(request, 'contractor-list.html', context)
+
 
 def Export_ContractorList(request):
     response = HttpResponse(content_type='application/ms-excel')

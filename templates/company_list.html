@@ -49,7 +49,7 @@
                          
                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
                            <form class="form-inline app-new-form my-2 my-lg-0" method="GET" action="{% url 'company_list' %}">
-                             <input class="form-control mr-sm-2" type="text" name="search" value="" placeholder="Search...">
+                            <input class="form-control mr-sm-2" type="text" name="search"  value="{{ search_query|default:'' }}" placeholder="Search..." autocomplete="off">
                              <div class="search-image">
                               <button type="submit">
                                 <img src="{% static 'images/user-management/search.svg' %}"/></button>

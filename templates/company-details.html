@@ -70,12 +70,12 @@
                          </button>
                        
                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                           <form class="form-inline app-new-form my-2 my-lg-0">
+                           <!-- <form class="form-inline app-new-form my-2 my-lg-0">
                              <input class="form-control mr-sm-2" type="search" placeholder="Search Waste" aria-label="Search">
                              <div class="search-image">
                                  <img src="{% static 'images/user-management/search.svg '%}" alt="">
                              </div>
-                           </form>
+                           </form> -->
                            <div class="user-management-icons">
                              <ul>
                                  <li>
@@ -104,6 +104,15 @@
                        </nav>
                     </div>
                     {% if user.is_superuser %}
+                    <form method="post" enctype="multipart/form-data" action="{% url 'import_company_excel' %}">
+                      {% csrf_token %}
+                      <div class="form-group">
+                          <label for="excel_file">Upload Excel File</label>
+                          <input type="file" class="form-control" id="excel_file" name="excel_file" accept=".xlsx, .xls" required>
+                      </div>
+                      <button type="submit" class="btn-2">Import Excel</button>
+                  </form>
+                  <a href="{% static 'xluploads/company_details.xlsx' %}" download>Sample Download File</a>
                     <div class="company-details">
                       <form method="post" enctype="multipart/form-data">
                         {% csrf_token %} 
