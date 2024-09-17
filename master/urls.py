@@ -13,10 +13,12 @@ urlpatterns = [
     path('company_details/list/', CompanyList, name='company_list'),
     path('company_details/<int:id>', CompanyUpdate ,name='company_update'),
     path('waste_records/', CaptureWasteRecord, name='waste_records'),
+    path('import_capture_waste_record_excel/', import_waste_records_excel, name='import_capture_waste_record_excel'),
     path('waste_record/<int:id>', WasteRecordUpdate ,name='waste_record_update'),
     path('waste_records/list/', WasteRecordList, name='waste_records_list'),
     path('waste_record/<int:id>/delete', DelWasteRecord, name='delete_waste_record'),
     path('compliance_records', ComplianceCertificate, name='compliance_records'),
+    path('import_company_excel/', import_company_excel, name='import_company_excel'),
     path('compliance_records/<int:id>', DocumentUpdate ,name='update_document'),
     path('compliance_records/<int:id>/delete', DelDocument, name='delete_document'),
     path('upload_documents/', AddDocuments, name='upload_documents'),
@@ -24,6 +26,7 @@ urlpatterns = [
     path('contrator/details', ContractorDetails, name='contrator_details'),
     path('contrator/list', ContractorList, name='contrator_list'),
     path('contrator/list/export_csv', Export_ContractorList, name='export_contractors_list'),
+    path('import_contractor_details/', import_contractor_details, name='import_contractor_details'),
     path('waste_reports/', GeneratePdf.as_view(), name='download_reports')
      
     

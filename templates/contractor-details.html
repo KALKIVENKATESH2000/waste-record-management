@@ -77,6 +77,15 @@
                 <div class="waste-record">
                     {% comment %} <p>Lorem Epson is a dummy word to fill the sentences Lorem Epson is a dummy word to fill the sentences</p> {% endcomment %}
                 </div>
+                <form method="post" enctype="multipart/form-data" action="{% url 'import_contractor_details' %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                      <label for="excel_file">Upload Excel File</label>
+                      <input type="file" class="form-control" id="excel_file" name="excel_file" accept=".xlsx, .xls" required>
+                  </div>
+                  <button type="submit" class="btn-2">Import Excel</button>
+              </form>
+              <a href="{% static 'xluploads/contractor_details.xlsx' %}" download>Sample Download File</a>
                 <div class="company-details app-new-company-details">
                   <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
